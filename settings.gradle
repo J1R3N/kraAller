@@ -1,0 +1,5 @@
+rootProject.name = "kraller"
+
+include 'kraller-gui'
+include 'kraller-server'
+
