@@ -3,8 +3,18 @@ Krankenhaus-Allergen Auskunft
 
 <h1>Allergenauskunft für Krankenhäuser</h1>
 <br />
-<b>Collaborators: </b>&nbsp; R, J, J und J <br />
-<b>Leiter:</b>&nbsp; J
+<ul>
+<b>Teamleiter: </b>JusL
+</ul>
+<ul>
+<b>GUI: </b> JusL & JohT
+</ul>
+<ul>
+<b>Backend: </b> RobR 
+</ul>
+<ul>
+<b>Tester: </b> ALLE (primär JohH) </b>
+</ul>
 <br /><br />
 <p><b>Idee:</b>&nbsp; Für alle Krankenhäuser soll ein Allergenauskunft per Tabletsoftware (mit GUI) für das gesamte Haus zur Verfügung stellen.<br />
 <b>Beispiel:</b>&nbsp;Patient A in Etage 4 Raum 33b, hat eine Allergie auf Milchprodukte und auf Erdnüssen, dh. die Krankenschwestern werden keine Gerichte von dieser Allergenklasse aus der Kantine zu den Patienten gebracht.</p>
