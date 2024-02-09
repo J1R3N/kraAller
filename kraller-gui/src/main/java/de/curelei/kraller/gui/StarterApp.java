@@ -1,5 +1,6 @@
 package de.curelei.kraller.gui;
 
+import de.curelei.kraller.Starter;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -13,7 +14,8 @@ public class StarterApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Label l = new Label("Hallo kraAller!");
+        Starter s = new Starter();
+        Label l = new Label("Hallo kraAller! "+s.getVersion());
         HBox root = new HBox();
         root.getChildren().add(l);
         Scene scene = new Scene(root, 300, 400);
