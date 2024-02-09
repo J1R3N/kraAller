@@ -61,4 +61,4 @@ Job des Team-/Projektleiters:
 1. Teammitglieder unterstützen
 2. Dafür Sorgen, das die Teammitglieder zu tun haben
 3. Dafür Sorgen, dass die administrativen Vorgaben (s.o.) erfüllt sind
-4. wenn noch Zeit ist: selbst entwickeln
+4. Wenn noch Zeit ist: selbst entwickeln
