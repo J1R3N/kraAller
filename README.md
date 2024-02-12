@@ -28,8 +28,8 @@ Krankenhaus-Allergen Auskunft
 WorkFlow
 =========
 
-1. Branch-Protection
---------------------
+1. Branch-Protection (geht nur bei Pro)
+---------------------------------------
 Settings - Branches - Add rule
 	- Branch name pattern: main
 	- require pull request reviews before merging 
@@ -37,14 +37,23 @@ Settings - Branches - Add rule
 	
 2. Aufgaben werden als Issue erfasst. 
 --------------------------------------
-	Namen beginnt mit einer forlaufenden Nummer
 	Aufgabe wird einem Bearbeiter zugewiesen (Assignees)
 
 3. Wenn eine Aufgabe bearbeitet wird
 -------------------------------------
 	- wird aus dem main-Branch ein Feature-Branch erstellt
-	- Der Feature-Branch bekommt den Namen "feature/"+<name der Issue>
-	
+	- Der Feature-Branch bekommt den Namen "feature/<ProjektKürzel>-<Nr der Issue>-<Name der Issue>"
+	    Beispiel:
+	        Das Projekt hat das Kürzel: "PRO"
+	        Die Issue heißt: "JUnit-Test für KundenService" und hat die Nummer #23
+	        dann heißt der Branch:
+	        "feature/PRO-23-JUnit-Test-fuer-KundenService"
+	        (Keine Umlaute und keine Leerzeichen)
+	- Jede Commit-Message enthält die Nummer der Issue
+	    Beispiel:
+	        PRO-23
+	        GoodDay-Szenario für neuen Kunden getestet
+
 4. Wenn die Aufgabe	fertig ist
 ------------------------------
 	- wird ein PullRequest (PR) vom Feature-Branch zum main-Branch erstellt
@@ -61,4 +70,4 @@ Job des Team-/Projektleiters:
 1. Teammitglieder unterstützen
 2. Dafür Sorgen, das die Teammitglieder zu tun haben
 3. Dafür Sorgen, dass die administrativen Vorgaben (s.o.) erfüllt sind
-4. Wenn noch Zeit ist: selbst entwickeln
+4. wenn noch Zeit ist: selbst entwickeln
