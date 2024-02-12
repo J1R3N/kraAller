@@ -1,6 +1,6 @@
 package de.curelei.kraller.basis;
 
-import de.curelei.kraller.allergene.Allergen;
+import de.curelei.kraller.allergen.Allergen;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ public class Gericht {
     private String bezeichung;
     private String kategorie;
     private List<Allergen> allergen;
-    private List<Zusatzstoffe> zusatzstoff;
+    private List<Zusatzstoff> zusatzstoff;
     private List<Beilage> beilagenZutaten;
 
     public String getBezeichung() {
@@ -35,11 +35,11 @@ public class Gericht {
         this.allergen = allergen;
     }
 
-    public List<Zusatzstoffe> getZusatzstoff() {
+    public List<Zusatzstoff> getZusatzstoff() {
         return zusatzstoff;
     }
 
-    public void setZusatzstoff(List<Zusatzstoffe> zusatzstoff) {
+    public void setZusatzstoff(List<Zusatzstoff> zusatzstoff) {
         this.zusatzstoff = zusatzstoff;
     }
 

@@ -1,6 +1,6 @@
 package de.curelei.kraller.basis;
 
-public class Zusatzstoffe {
+public class Zusatzstoff {
     private String bezeichnung;
     private int id;
 
