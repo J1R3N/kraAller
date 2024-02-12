@@ -1,4 +1,4 @@
-package de.curelei.kraller.Allergene;
+package de.curelei.kraller.allergene;
 
 import java.util.List;
 public class Allergen {
@@ -6,16 +6,7 @@ public class Allergen {
     private int id;
     private String unterGruppe;
     private String bezeichnung;
-    private List<Allergen> allergene;
 
-
-    List<Allergen> getAllAllergens(){
-        return allergene;
-    }
-    Allergen getAllergenById(int id){
-        this.id=id;
-        return null;
-    }
     private String getUntergruppe(){
         return unterGruppe;
     }

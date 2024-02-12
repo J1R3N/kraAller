@@ -1,4 +1,4 @@
-package de.curelei.kraller.Allergene;
+package de.curelei.kraller.allergene;
 
 import java.util.List;
 

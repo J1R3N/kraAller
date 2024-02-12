@@ -1,4 +1,4 @@
-package de.curelei.kraller.Basis;
+package de.curelei.kraller.basis;
 
 public class Zusatzstoffe {
     private String bezeichnung;

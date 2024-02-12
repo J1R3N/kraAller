@@ -1,4 +1,4 @@
-package de.curelei.kraller.Patienten;
+package de.curelei.kraller.patienten;
 
 import de.curelei.kraller.ValidierungsException;
 

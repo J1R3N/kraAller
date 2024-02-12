@@ -1,4 +1,4 @@
-package de.curelei.kraller.Allergene;
+package de.curelei.kraller.allergene;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ public class AllergenServiceImpl implements AllergenService {
 
     @Override
     public List<Allergen> hole() {
-        return allergenDAO.getAllAllergens();
+        return allergenDAO.getAll();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package de.curelei.kraller.Patienten;
+package de.curelei.kraller.patienten;
 
 import java.util.List;
 
