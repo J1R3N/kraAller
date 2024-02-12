@@ -6,28 +6,28 @@ public class AllergenServiceImpl implements AllergenService {
     private AllergenDAO allergenDAO = new AllergenDAOImpl();
 
     @Override
-    public List<Allergen> getAllAllergens() {
+    public List<Allergen> hole() {
         return allergenDAO.getAllAllergens();
     }
 
     @Override
-    public Allergen getAllergenById(int id) {
+    public Allergen sucheMitId(int id) {
         // Implementierung der Methode
         return null;
     }
 
     @Override
-    public void addAllergen(Allergen allergen) {
+    public void neu(Allergen allergen) {
         // Implementierung der Methode
     }
 
     @Override
-    public void updateAllergen(int id, Allergen updatedAllergen) {
+    public void aendern(int id, Allergen updatedAllergen) {
         // Implementierung der Methode
     }
 
     @Override
-    public void deleteAllergen(int id) {
+    public void loeschen(int id) {
         // Implementierung der Methode
     }
 }
