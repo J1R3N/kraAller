@@ -6,7 +6,7 @@ import de.curelei.kraller.Patienten.PatientDAOImpl;
 
 import java.util.List;
 
-public class KrallerServiceImplInterface implements KrallerServiceInterface {
+public class KrallerServiceImpl implements KrallerServiceInterface {
     private static KrallerServiceInterface instance;
 
     private final PatientDAO kundenDao;
@@ -14,12 +14,12 @@ public class KrallerServiceImplInterface implements KrallerServiceInterface {
     // einfache Variante ohne Sync.
     public static KrallerServiceInterface getInstance() {
         if (instance == null) {
-            instance = new KrallerServiceImplInterface();
+            instance = new KrallerServiceImpl();
         }
         return instance;
     }
 
-    private KrallerServiceImplInterface() {
+    private KrallerServiceImpl() {
         System.out.println("Erzeuge Kunden-Service");
         kundenDao = new PatientDAOImpl();
     }
