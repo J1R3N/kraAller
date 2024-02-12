@@ -1,14 +1,13 @@
-package de.curelei.kraller;
+package de.curelei.kraller.Allergene;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class AllergenDAOImpl implements AllergenDAO {
-    private List<Allergen> allergens = new ArrayList<>();
+public class AllergenServiceImpl implements AllergenService {
+    private AllergenDAO allergenDAO = new AllergenDAOImpl();
 
     @Override
     public List<Allergen> getAllAllergens() {
-        return allergens;
+        return allergenDAO.getAllAllergens();
     }
 
     @Override

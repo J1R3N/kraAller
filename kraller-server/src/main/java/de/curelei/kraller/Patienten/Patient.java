@@ -1,4 +1,8 @@
-package de.curelei.kraller;
+package de.curelei.kraller.Patienten;
+
+import de.curelei.kraller.Allergene.Allergen;
+
+import java.util.List;
 
 public class Patient {
     private int id;
@@ -7,7 +11,7 @@ public class Patient {
     private int alter;
     private String geschlecht;
     private String raum;
-    private String[] allergene;
+    private List<Allergen> allergene;
 
 
     public int getId(){
@@ -52,11 +56,11 @@ public class Patient {
         this.raum = raum;
     }
 
-    public String[] getPatientAllergene(){
+    public List<Allergen> getPatientAllergene(){
         return allergene;
     }
 
-    public void setAllergene(String[] allergene) {
+    public void setAllergene(List<Allergen> allergene) {
         this.allergene = allergene;
     }
 

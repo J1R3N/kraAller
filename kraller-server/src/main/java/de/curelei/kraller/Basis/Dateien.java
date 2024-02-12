@@ -1,11 +1,11 @@
-package de.curelei.kraller;
+package de.curelei.kraller.Basis;
 
 import java.io.*;
 
-public class daten {
+public class Dateien {
     private String dateiName;
 
-    public daten(String dateiName) {
+    public Dateien(String dateiName) {
         this.dateiName = dateiName;
     }
 

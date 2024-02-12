@@ -1,21 +1,25 @@
 package de.curelei.kraller;
 
+import de.curelei.kraller.Patienten.Patient;
+import de.curelei.kraller.Patienten.PatientDAO;
+import de.curelei.kraller.Patienten.PatientDAOImpl;
+
 import java.util.List;
 
-public class KrallerServiceImpl implements iKrallerService{
-    private static iKrallerService instance;
+public class KrallerServiceImplInterface implements KrallerServiceInterface {
+    private static KrallerServiceInterface instance;
 
     private final PatientDAO kundenDao;
 
     // einfache Variante ohne Sync.
-    public static iKrallerService getInstance() {
+    public static KrallerServiceInterface getInstance() {
         if (instance == null) {
-            instance = new KrallerServiceImpl();
+            instance = new KrallerServiceImplInterface();
         }
         return instance;
     }
 
-    private KrallerServiceImpl() {
+    private KrallerServiceImplInterface() {
         System.out.println("Erzeuge Kunden-Service");
         kundenDao = new PatientDAOImpl();
     }
