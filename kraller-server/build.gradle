@@ -40,10 +40,10 @@ dependencies {
 task deploy (type:Copy, dependsOn: build) {
 
     from('build/libs'){
-        rename 'verbund-24-rs.war', 'rs.war'
+        rename 'kraller-server.war', 'kr.war'
     }
     into "${project.property('tomcat.home')}/webapps/"
-    println "kopiere rs.war nach ${project.property('tomcat.home')}/webapps/"
+    println "kopiere kr.war nach ${project.property('tomcat.home')}/webapps/"
 }
 
 test {

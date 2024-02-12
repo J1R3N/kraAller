@@ -1,6 +1,6 @@
 package de.curelei.kraller;
 
-public class Starter {
+public class KraAllerApp {
     public static void main(String[] args) {
         System.out.println("Hallo noScrabble");
     }
