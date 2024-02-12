@@ -2,10 +2,10 @@ package de.curelei.kraller.basis;
 
 import java.io.*;
 
-public class Dateien {
+public class Datei {
     private String dateiName;
 
-    public Dateien(String dateiName) {
+    public Datei(String dateiName) {
         this.dateiName = dateiName;
     }
 
@@ -23,6 +23,7 @@ public class Dateien {
         } catch (IOException e) {
             // Fehlerbehandlung
             e.printStackTrace();
+            System.out.println("Fehler bei Schreiben");
         }
     }
 
@@ -46,6 +47,7 @@ public class Dateien {
         // Etwas schief gegangen?
         catch (IOException e) {
             e.printStackTrace();
+            System.out.println("Fehler bei Lesen");
         }
         return inhalt.toString();
     }
