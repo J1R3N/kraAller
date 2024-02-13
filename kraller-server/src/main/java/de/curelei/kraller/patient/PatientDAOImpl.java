@@ -1,4 +1,4 @@
-package de.curelei.kraller.patienten;
+package de.curelei.kraller.patient;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class PatientDAOImpl implements PatientDAO {
     }
 
     @Override
-    public Patient get(String kundenummer) {
+    public Patient get(int id) {
         return null;
     }
 

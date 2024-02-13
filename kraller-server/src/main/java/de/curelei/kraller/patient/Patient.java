@@ -1,6 +1,6 @@
-package de.curelei.kraller.patienten;
+package de.curelei.kraller.patient;
 
-import de.curelei.kraller.allergene.Allergen;
+import de.curelei.kraller.allergen.Allergen;
 
 import java.util.List;
 

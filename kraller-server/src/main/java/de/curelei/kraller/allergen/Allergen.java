@@ -1,6 +1,5 @@
-package de.curelei.kraller.allergene;
+package de.curelei.kraller.allergen;
 
-import java.util.List;
 public class Allergen {
 
     private int id;

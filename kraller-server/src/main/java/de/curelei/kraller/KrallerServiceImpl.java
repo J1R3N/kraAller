@@ -1,8 +1,8 @@
 package de.curelei.kraller;
 
-import de.curelei.kraller.patienten.Patient;
-import de.curelei.kraller.patienten.PatientDAO;
-import de.curelei.kraller.patienten.PatientDAOImpl;
+import de.curelei.kraller.patient.Patient;
+import de.curelei.kraller.patient.PatientDAO;
+import de.curelei.kraller.patient.PatientDAOImpl;
 
 import java.util.List;
 
@@ -40,7 +40,7 @@ public class KrallerServiceImpl implements KrallerService {
 
     private String getNachsteId() {
         int id = kundenDao.getMaxId() + 1;
-        return String.format("K%05d", id);
+        return String.format("P%05d", id);
     }
 
     @Override
@@ -49,9 +49,10 @@ public class KrallerServiceImpl implements KrallerService {
     }
 
     @Override
-    public void loeschen(String kundennummer) {
+    public void loeschen(int patientNr) {
 
     }
+
 
     @Override
     public List<Patient> suchen(String suchbegriff) {
@@ -59,7 +60,9 @@ public class KrallerServiceImpl implements KrallerService {
     }
 
     @Override
-    public Patient holen(String kundennummer) {
-        return kundenDao.get(kundennummer);
+    public Patient holen(int patientNr) {
+        return kundenDao.get(patientNr);
     }
+
 }
+
