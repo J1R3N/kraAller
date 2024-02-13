@@ -1,14 +1,14 @@
 package de.curelei.kraller;
 
-import de.curelei.kraller.patienten.Patient;
+import de.curelei.kraller.patient.Patient;
 
 import java.util.List;
 
 public interface KrallerService {
     Patient neu(Patient k) throws ValidierungsException;
     void aendern(Patient k);
-    void loeschen(String patientenNr);
+    void loeschen(int patientNr);
 
     List<Patient> suchen(String suchBegriff);
-    Patient holen(String patientNr);
+    Patient holen(int patientNr);
 }

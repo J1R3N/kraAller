@@ -1,4 +1,4 @@
-package de.curelei.kraller.patienten;
+package de.curelei.kraller.patient;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ public interface PatientDAO {
     void update(Patient k);
     void delete(int id);
     List<Patient> find(String suchbegriff);
-    Patient get(String kundenummer);
+    Patient get(int id);
 
     int getMaxId();
 }

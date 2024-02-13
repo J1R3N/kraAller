@@ -1,4 +1,4 @@
-package de.curelei.kraller.allergene;
+package de.curelei.kraller.allergen;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class AllergenServiceImpl implements AllergenService {
         }
         return allergenDAO.getById(id);
     }
-
+//
     @Override
     public void neu(Allergen allergen) {
         if(allergen != null){
