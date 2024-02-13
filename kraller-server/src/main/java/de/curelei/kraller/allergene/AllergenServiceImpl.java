@@ -12,22 +12,37 @@ public class AllergenServiceImpl implements AllergenService {
 
     @Override
     public Allergen sucheMitId(int id) {
-        // Implementierung der Methode
-        return null;
+        if(id <= 0){
+            throw new IllegalArgumentException("Fehlerhafte ID");
+        }
+        return allergenDAO.getById(id);
     }
 
     @Override
     public void neu(Allergen allergen) {
-        // Implementierung der Methode
+        if(allergen != null){
+            System.out.println("Neue Allergie angelegt");
+            allergenDAO.add(allergen);
+        }
+
     }
 
     @Override
     public void aendern(int id, Allergen updatedAllergen) {
-        // Implementierung der Methode
+        if(updatedAllergen != null){
+            System.out.println(updatedAllergen + " geändert");
+            allergenDAO.update(id, updatedAllergen);
+        }
     }
 
     @Override
     public void loeschen(int id) {
-        // Implementierung der Methode
+        if (!allergenDAO.istIdInDatenbankVorhanden(id)) {
+            throw new IllegalArgumentException("ID nicht gefunden: " + id);
+        }
+        if(id <= 0){
+            throw new IllegalArgumentException("Fehlerhafte ID");
+        }
+        allergenDAO.delete(id);
     }
 }
