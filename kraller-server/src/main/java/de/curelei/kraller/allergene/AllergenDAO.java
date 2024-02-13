@@ -9,5 +9,5 @@ public interface AllergenDAO {
     void update(int id, Allergen updatedAllergen); //NUR DAS
     void delete(int id);
 
-    boolean istIdInDatenbankVorhanden(int id);
+
 }

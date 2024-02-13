@@ -37,9 +37,7 @@ public class AllergenServiceImpl implements AllergenService {
 
     @Override
     public void loeschen(int id) {
-        if (!allergenDAO.istIdInDatenbankVorhanden(id)) {
-            throw new IllegalArgumentException("ID nicht gefunden: " + id);
-        }
+
         if(id <= 0){
             throw new IllegalArgumentException("Fehlerhafte ID");
         }
