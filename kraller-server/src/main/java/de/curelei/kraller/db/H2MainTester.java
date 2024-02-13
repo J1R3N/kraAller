@@ -41,10 +41,10 @@ public class H2MainTester {
             stmt.executeUpdate(dropQ);
 
             String createQ = "CREATE TABLE IF NOT EXISTS " + tab
-                    + "(id INTEGER PRIMARY KEY AUTOINCREMENT, NAME VARCHAR(255))";
+                    + "(id INTEGER NOT NULL auto_increment, NAME VARCHAR(255),primary key (id))";
             stmt.executeUpdate(createQ);
 
-            String insertQ = "INSERT INTO " + tab + " VALUES(TRANSACTION_ID(),'Hello World!')";
+            String insertQ = "INSERT INTO " + tab + " ( NAME ) VALUES('Hello World!')";
             stmt.executeUpdate(insertQ);
 
             ResultSet selectRS = stmt.executeQuery("SELECT * FROM " + tab);
