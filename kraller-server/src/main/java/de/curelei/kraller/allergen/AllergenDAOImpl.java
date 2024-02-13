@@ -31,4 +31,8 @@ public class AllergenDAOImpl implements AllergenDAO {
     public void delete(int id) {
         // Implementierung der Methode
     }
+
+    public boolean istIdInDatenbankVorhanden(int id){
+        db.contains(id);
+    }
 }

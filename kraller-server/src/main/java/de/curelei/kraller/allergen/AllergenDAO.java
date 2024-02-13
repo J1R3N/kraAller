@@ -8,4 +8,6 @@ public interface AllergenDAO {
     void add(Allergen allergen);
     void update(int id, Allergen updatedAllergen); //NUR DAS
     void delete(int id);
+
+
 }
