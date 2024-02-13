@@ -1,13 +1,13 @@
 package de.curelei.kraller.db;
 
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class H2MainTester {
+    public H2MainTester() {
+    }
 
     public static void main(String[] a) throws Exception {
         Class.forName("org.h2.Driver");
@@ -15,51 +15,46 @@ public class H2MainTester {
     }
 
     public static void readDB() {
-        String tab = "TESTTABELLE";
+
+        String aTabelle = "Allergie";
+
         try (Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "")) {
-            DatabaseMetaData md = conn.getMetaData();
 
-            String[] types = {"TABLE", "SYSTEM TABLE"};
-            ResultSet metaRS = md.getTables(null, null, "%", null);
-            while (metaRS.next()) {
-
-                String tableCatalog = metaRS.getString(1);
-                System.out.println("Catalog: " + tableCatalog);
-
-                String tableSchema = metaRS.getString(2);
-                System.out.println("Tabellen-Schema: " + tableSchema);
-
-                String tableName = metaRS.getString(3);
-                System.out.println("Tabellen-Name: " + tableName);
-
-                String tableType = metaRS.getString(4);
-                System.out.println("Tabellen-Typ: " + tableType + "\n");
-            }
             Statement stmt = conn.createStatement();
 
-            String dropQ = "DROP TABLE IF EXISTS " + tab;
-            stmt.executeUpdate(dropQ);
+            String dropA = "DROP TABLE IF EXISTS " + aTabelle;
+            stmt.executeUpdate(dropA);
 
-            String createQ = "CREATE TABLE IF NOT EXISTS " + tab
-                    + "(id INTEGER NOT NULL auto_increment, NAME VARCHAR(255),primary key (id))";
-            stmt.executeUpdate(createQ);
+            String createA = "CREATE TABLE IF NOT EXISTS " + aTabelle
+                    + "(id INTEGER NOT NULL auto_increment, " +
+                    "untergruppe VARCHAR(255), " +
+                    "bezeichnung VARCHAR(255), " +
+                    "primary key(id))";
+            stmt.executeUpdate(createA);
 
-            String insertQ = "INSERT INTO " + tab + " ( NAME ) VALUES('Hello World!')";
-            stmt.executeUpdate(insertQ);
+            String insertA = "INSERT INTO " + aTabelle +
+                    "(untergruppe, bezeichnung) " +
+                    "VALUES('1', 'Nuss')," +
+                    "('2', 'Milch')," +
+                    "('3', 'Laktose')"
+                    ;
+            stmt.executeUpdate(insertA);
 
-            ResultSet selectRS = stmt.executeQuery("SELECT * FROM " + tab);
-            while (selectRS.next()) {
-                System.out.printf("%s, %s\n", selectRS.getString(1), selectRS.getString(2));
-            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
-            System.out.println("Liste Tabellen...");
-            String tablesQ = "SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='PUBLIC'";
-            ResultSet tablesRS = stmt.executeQuery(tablesQ);
-            while (tablesRS.next()) {
-                System.out.printf("Tabelle %s vorhanden \n", tablesRS.getString(1));
-            }
+    public static void dbconnector(String query){
+        try (Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "")) {
+
+            Statement stmt = conn.createStatement();
+
+            stmt.executeUpdate(query);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 }
+

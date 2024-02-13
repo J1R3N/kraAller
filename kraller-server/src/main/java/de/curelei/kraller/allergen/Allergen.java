@@ -6,17 +6,23 @@ public class Allergen {
     private String unterGruppe;
     private String bezeichnung;
 
-    private String getUntergruppe(){
+    public Allergen(int id, String unterGruppe, String bezeichnung) {
+        this.id = id;
+        this.unterGruppe = unterGruppe;
+        this.bezeichnung = bezeichnung;
+    }
+
+    public String getUntergruppe(){
         return unterGruppe;
     }
-    private void setUntergruppe(String untergruppe){
+    public void setUntergruppe(String untergruppe){
         this.unterGruppe=untergruppe;
     }
-    private String setBezeichnung(){
+    public String getBezeichnung(){
 
         return bezeichnung;
     }
-    private void getBezeichnung(String bezeichnung){
+    public void setBezeichnung(String bezeichnung){
         this.bezeichnung=bezeichnung;
     }
 
