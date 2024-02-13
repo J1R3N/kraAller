@@ -15,7 +15,7 @@ public class AllergenServiceImpl implements AllergenService {
         // Implementierung der Methode
         return null;
     }
-
+//
     @Override
     public void neu(Allergen allergen) {
         // Implementierung der Methode
