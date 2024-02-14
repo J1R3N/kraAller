@@ -42,7 +42,7 @@ public class WeiteresFensterController {
 
     @FXML
     private void schliessen(ActionEvent event) {
-        // Fenster wird Geschlossen
+        // Fenster wird Geschlossen!
         Stage stage = (Stage) ((javafx.scene.control.Button) event.getSource()).getScene().getWindow();
         stage.close();
     }
