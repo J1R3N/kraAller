@@ -32,7 +32,8 @@ public class AllergenDAOImpl implements AllergenDAO {
         // Implementierung der Methode
     }
 
-    public boolean istIdInDatenbankVorhanden(int id){
-        db.contains(id);
+    public boolean istIdInDatenbankVorhanden(int id) {
+        //db.contains(id);
+        return false;
     }
 }
