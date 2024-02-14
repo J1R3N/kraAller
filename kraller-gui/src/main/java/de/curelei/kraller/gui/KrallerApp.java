@@ -22,7 +22,7 @@ public class KrallerApp extends Application {
         URL res = getClass().getResource("/fxml/HauptFenster.fxml");
         Parent root = FXMLLoader.load(res);
         primaryStage.setTitle("Allergen-Auskunft");
-        Scene scene = new Scene(root, 600, 500);
+        Scene scene = new Scene(root, 500, 300);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
