@@ -12,6 +12,9 @@ import java.util.List;
 public class AllergenDAOImpl implements AllergenDAO {
 
     DBConnection dbcon = new DBConnection();
+    private static String TABELLE_ID = "id";
+    private static final String TABELLE_BEZEICHNUNG = "allergie";
+    private static final String TABELLE_UNTERGRUPPE = "untergruppe";
 
     @Override
     public List<Allergen> getAll() {
@@ -24,9 +27,9 @@ public class AllergenDAOImpl implements AllergenDAO {
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
                         Allergen allergen = new Allergen(
-                                resultSet.getInt("id"),
-                                resultSet.getString("untergruppe"),
-                                resultSet.getString("allergie")
+                                resultSet.getInt(TABELLE_ID),
+                                resultSet.getString(TABELLE_UNTERGRUPPE),
+                                resultSet.getString(TABELLE_BEZEICHNUNG)
                         );
                         allergens.add(allergen);
                     }
@@ -52,14 +55,15 @@ public class AllergenDAOImpl implements AllergenDAO {
 
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()) {
-                        untergruppe = resultSet.getString("untergruppe");
-                        bezeichnung = resultSet.getString("allergie");
+                        untergruppe = resultSet.getString(TABELLE_UNTERGRUPPE);
+                        bezeichnung = resultSet.getString(TABELLE_BEZEICHNUNG);
                         return new Allergen(id, untergruppe, bezeichnung);
                     }
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Fehler bei Suche über ID");
         }
 
         return null;
@@ -78,7 +82,9 @@ public class AllergenDAOImpl implements AllergenDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Fehler bei Hinzufügen der Allergene");
         }
+        System.out.println(allergen.getBezeichnung() + " hinzugefügt");
     }
 
     @Override
@@ -95,7 +101,9 @@ public class AllergenDAOImpl implements AllergenDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Fehler beim Updaten von " + updatedAllergen.getBezeichnung());
         }
+        System.out.println(updatedAllergen.getBezeichnung() + "erfolgreich geändert");
     }
 
     @Override
@@ -110,11 +118,8 @@ public class AllergenDAOImpl implements AllergenDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Fehler beim Löschen mit ID " + id);
         }
-    }
-
-    public boolean istIdInDatenbankVorhanden(int id) {
-        //db.contains(id);
-        return false;
+        System.out.println(id + " erfolgreich gelöscht");
     }
 }
