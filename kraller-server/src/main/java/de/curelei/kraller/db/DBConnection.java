@@ -10,7 +10,7 @@ public class DBConnection {
     private static final String DB_USER = "sa";
     private static final String DB_PASSWORD = "";
 
-    public static Connection getConnection() {
+    public Connection getConnection() throws RuntimeException {
         try {
             return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
         } catch (SQLException e) {
@@ -18,13 +18,4 @@ public class DBConnection {
         }
     }
 
-    public static void closeConnection(Connection connection) {
-        if (connection != null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }

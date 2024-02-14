@@ -11,13 +11,13 @@ import java.util.List;
 
 public class AllergenDAOImpl implements AllergenDAO {
 
-    private DBConnection connection = new DBConnection();
+    DBConnection dbcon = new DBConnection();
 
     @Override
     public List<Allergen> getAll() {
         List<Allergen> allergens = new ArrayList<>();
 
-        try (Connection connection = DBConnection.getConnection()) {
+        try (Connection connection = dbcon.getConnection()) {
             String sqlQuery = "SELECT * FROM Allergie";
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
@@ -44,7 +44,7 @@ public class AllergenDAOImpl implements AllergenDAO {
         String untergruppe = null;
         String bezeichnung = null;
 
-        try (Connection connection = DBConnection.getConnection()) {
+        try (Connection connection = dbcon.getConnection()) {
             String sqlQuery = "SELECT * FROM Allergie WHERE id = ?";
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
@@ -67,7 +67,7 @@ public class AllergenDAOImpl implements AllergenDAO {
 
     @Override
     public void add(Allergen allergen) {
-        try (Connection connection = DBConnection.getConnection()) {
+        try (Connection connection = dbcon.getConnection()) {
             String sqlQuery = "INSERT INTO Allergie (untergruppe, allergie) VALUES (?, ?)";
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
@@ -83,7 +83,7 @@ public class AllergenDAOImpl implements AllergenDAO {
 
     @Override
     public void update(int id, Allergen updatedAllergen) {
-        try (Connection connection = DBConnection.getConnection()) {
+        try (Connection connection = dbcon.getConnection()) {
             String sqlQuery = "UPDATE Allergie SET untergruppe = ?, allergie = ? WHERE id = ?";
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
@@ -100,7 +100,7 @@ public class AllergenDAOImpl implements AllergenDAO {
 
     @Override
     public void delete(int id) {
-        try (Connection connection = DBConnection.getConnection()) {
+        try (Connection connection = dbcon.getConnection()) {
             String sqlQuery = "DELETE FROM Allergie WHERE id = ?";
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
