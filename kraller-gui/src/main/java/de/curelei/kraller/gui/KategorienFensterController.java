@@ -19,7 +19,7 @@ public class KategorienFensterController {
 
             Stage primaryStage = new Stage();
             primaryStage.setScene(new Scene(root));
-            primaryStage.setTitle("AllergeneFenster");
+            primaryStage.setTitle("Kategorien");
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();
