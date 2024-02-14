@@ -31,15 +31,16 @@ dependencies {
     implementation 'org.glassfish.jersey.core:jersey-client:2.25.1'
     implementation 'org.glassfish.jersey.media:jersey-media-json-jackson:2.25.1'
 
-    testImplementation  'org.junit.jupiter:junit-jupiter-api:5.7.2'
-    testImplementation  'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
     testImplementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+    testImplementation 'org.easymock:easymock:4.2'
 
 }
 
-task deploy (type:Copy, dependsOn: build) {
+task deploy(type: Copy, dependsOn: build) {
 
-    from('build/libs'){
+    from('build/libs') {
         rename 'kraller-server.war', 'kr.war'
     }
     into "${project.property('tomcat.home')}/webapps/"
