@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="de.curelei.kraller.gui.WeiteresFensterController"
-            prefHeight="125.0" prefWidth="125.0">
-
-    <VBox xmlns:fx="http://javafx.com/fxml" alignment="CENTER" spacing="10">
-        <Button text="Allergene" onAction="#oeffneAllergeneFenster" minWidth="120" minHeight="40"/>
-        <Button text="Zusatzstoffe" onAction="#oeffneZusatzstoffeFenster" minWidth="120" minHeight="40"/>
-        <Button text="Zurück" onAction="#schliessen" minWidth="120" minHeight="40"/>
-    </VBox>
+            prefHeight="400.0" prefWidth="600.0">
 
 </AnchorPane>
