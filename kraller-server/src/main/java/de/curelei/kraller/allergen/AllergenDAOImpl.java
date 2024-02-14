@@ -11,6 +11,7 @@ import java.util.List;
 
 public class AllergenDAOImpl implements AllergenDAO {
 
+    private static final String SQL_SELECT_ALL = "SELECT * FROM Allergie";
     DBConnection dbcon = new DBConnection();
     private static String TABELLE_ID = "id";
     private static final String TABELLE_BEZEICHNUNG = "allergie";
@@ -21,9 +22,7 @@ public class AllergenDAOImpl implements AllergenDAO {
         List<Allergen> allergens = new ArrayList<>();
 
         try (Connection connection = dbcon.getConnection()) {
-            String sqlQuery = "SELECT * FROM Allergie";
-
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_ALL)) {
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
                         Allergen allergen = new Allergen(
@@ -108,14 +107,13 @@ public class AllergenDAOImpl implements AllergenDAO {
 
     @Override
     public void delete(int id) {
-        try (Connection connection = dbcon.getConnection()) {
-            String sqlQuery = "DELETE FROM Allergie WHERE id = ?";
+        String sqlQuery = "DELETE FROM Allergie WHERE id = ?";
+        try (Connection connection = dbcon.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
+            preparedStatement.setInt(1, id);
 
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
-                preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
 
-                preparedStatement.executeUpdate();
-            }
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println("Fehler beim Löschen mit ID " + id);
