@@ -9,7 +9,7 @@ import java.util.List;
 public class KrallerServiceImpl implements KrallerService {
     private static KrallerService instance;
 
-    private final PatientDAO kundenDao;
+    private final PatientDAO patientDao;
 
     // einfache Variante ohne Sync.
     public static KrallerService getInstance() {
@@ -21,14 +21,13 @@ public class KrallerServiceImpl implements KrallerService {
 
     private KrallerServiceImpl() {
         System.out.println("Erzeuge Kunden-Service");
-        kundenDao = new PatientDAOImpl();
+        patientDao = new PatientDAOImpl();
     }
 
     @Override
     public Patient neu(Patient k) throws ValidierungsException {
         validiereKunde(k);
-        int neueId = kundenDao.save(k);
-        k.setId(neueId);
+        patientDao.save(k);
         return k;
     }
 
@@ -39,7 +38,7 @@ public class KrallerServiceImpl implements KrallerService {
     }
 
     private String getNachsteId() {
-        int id = kundenDao.getMaxId() + 1;
+        int id = patientDao.getMaxId() + 1;
         return String.format("P%05d", id);
     }
 
@@ -61,7 +60,7 @@ public class KrallerServiceImpl implements KrallerService {
 
     @Override
     public Patient holen(int patientNr) {
-        return kundenDao.get(patientNr);
+        return patientDao.get(patientNr);
     }
 
 }
