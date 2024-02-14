@@ -19,10 +19,11 @@ public class KrallerApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         KraAllerApp s = new KraAllerApp();
-        URL res = getClass().getResource("/fxml/HauptFenster.fxml");
+        URL res = getClass
+                ().getResource("/fxml/HauptFenster.fxml");
         Parent root = FXMLLoader.load(res);
         primaryStage.setTitle("Allergen-Auskunft");
-        Scene scene = new Scene(root, 600, 500);
+        Scene scene = new Scene(root, 500, 300);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

@@ -1,5 +1,6 @@
 package de.curelei.kraller.basis;
 
+
 public class Zusatzstoff {
     private String bezeichnung;
     private int id;
@@ -20,4 +21,5 @@ public class Zusatzstoff {
     public void setId(int id) {
         this.id = id;
     }
+
 }
