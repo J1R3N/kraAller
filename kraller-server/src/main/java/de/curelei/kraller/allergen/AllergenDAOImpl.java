@@ -1,5 +1,6 @@
 package de.curelei.kraller.allergen;
 
+import de.curelei.kraller.KrallerException;
 import de.curelei.kraller.db.DBConnection;
 
 import java.sql.Connection;
@@ -12,10 +13,14 @@ import java.util.List;
 public class AllergenDAOImpl implements AllergenDAO {
 
     private static final String SQL_SELECT_ALL = "SELECT * FROM Allergie";
+    private static final String SQL_SELECT_ID = "SELECT * FROM Allergie WHERE id = ?";
+    public static final String SQL_ADD = "INSERT INTO Allergie (untergruppe, allergie) VALUES (?, ?)";
+    public static final String SQL_UPDATE = "UPDATE Allergie SET untergruppe = ?, allergie = ? WHERE id = ?";
+    public static final String SQL_DELETE = "DELETE FROM Allergie WHERE id = ?";
     DBConnection dbcon = new DBConnection();
-    private static String TABELLE_ID = "id";
-    private static final String TABELLE_BEZEICHNUNG = "allergie";
-    private static final String TABELLE_UNTERGRUPPE = "untergruppe";
+    private static String TAB_ID = "id";
+    private static final String TAB_BEZEICHNUNG = "allergie";
+    private static final String TAB_UNTERGRUPPE = "untergruppe";
 
     @Override
     public List<Allergen> getAll() {
@@ -26,9 +31,9 @@ public class AllergenDAOImpl implements AllergenDAO {
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
                         Allergen allergen = new Allergen(
-                                resultSet.getInt(TABELLE_ID),
-                                resultSet.getString(TABELLE_UNTERGRUPPE),
-                                resultSet.getString(TABELLE_BEZEICHNUNG)
+                                resultSet.getInt(TAB_ID),
+                                resultSet.getString(TAB_UNTERGRUPPE),
+                                resultSet.getString(TAB_BEZEICHNUNG)
                         );
                         allergens.add(allergen);
                     }
@@ -36,6 +41,7 @@ public class AllergenDAOImpl implements AllergenDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new KrallerException("Fehler beim holen der Allergenaufzählung");
         }
 
         return allergens;
@@ -47,22 +53,21 @@ public class AllergenDAOImpl implements AllergenDAO {
         String bezeichnung = null;
 
         try (Connection connection = dbcon.getConnection()) {
-            String sqlQuery = "SELECT * FROM Allergie WHERE id = ?";
 
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_ID)) {
                 preparedStatement.setInt(1, id);
 
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()) {
-                        untergruppe = resultSet.getString(TABELLE_UNTERGRUPPE);
-                        bezeichnung = resultSet.getString(TABELLE_BEZEICHNUNG);
+                        untergruppe = resultSet.getString(TAB_UNTERGRUPPE);
+                        bezeichnung = resultSet.getString(TAB_BEZEICHNUNG);
                         return new Allergen(id, untergruppe, bezeichnung);
                     }
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("Fehler bei Suche über ID");
+            throw new KrallerException("Fehler bei Suche über ID");
         }
 
         return null;
@@ -70,53 +75,50 @@ public class AllergenDAOImpl implements AllergenDAO {
 
     @Override
     public void add(Allergen allergen) {
-        try (Connection connection = dbcon.getConnection()) {
-            String sqlQuery = "INSERT INTO Allergie (untergruppe, allergie) VALUES (?, ?)";
-
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
+        try (Connection connection = dbcon.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_ADD)) {
                 preparedStatement.setString(1, allergen.getUntergruppe());
                 preparedStatement.setString(2, allergen.getBezeichnung());
 
                 preparedStatement.executeUpdate();
-            }
+
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("Fehler bei Hinzufügen der Allergene");
+            System.err.println("Fehler bei Hinzufügen der Allergene");
         }
         System.out.println(allergen.getBezeichnung() + " hinzugefügt");
+
     }
 
     @Override
     public void update(int id, Allergen updatedAllergen) {
-        try (Connection connection = dbcon.getConnection()) {
-            String sqlQuery = "UPDATE Allergie SET untergruppe = ?, allergie = ? WHERE id = ?";
-
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
+        try (Connection connection = dbcon.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
                 preparedStatement.setString(1, updatedAllergen.getUntergruppe());
                 preparedStatement.setString(2, updatedAllergen.getBezeichnung());
                 preparedStatement.setInt(3, id);
 
                 preparedStatement.executeUpdate();
-            }
+
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("Fehler beim Updaten von " + updatedAllergen.getBezeichnung());
+            throw new KrallerException("Fehler beim Updaten von " + updatedAllergen.getBezeichnung());
         }
         System.out.println(updatedAllergen.getBezeichnung() + "erfolgreich geändert");
     }
 
     @Override
     public void delete(int id) {
-        String sqlQuery = "DELETE FROM Allergie WHERE id = ?";
+
         try (Connection connection = dbcon.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {
             preparedStatement.setInt(1, id);
 
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("Fehler beim Löschen mit ID " + id);
+            throw new KrallerException("Fehler beim Löschen mit ID " + id);
         }
         System.out.println(id + " erfolgreich gelöscht");
     }
