@@ -14,9 +14,9 @@ public class AllergenDAOImpl implements AllergenDAO {
 
     private static final String SQL_SELECT_ALL = "SELECT * FROM Allergie";
     private static final String SQL_SELECT_ID = "SELECT * FROM Allergie WHERE id = ?";
-    public static final String SQL_ADD = "INSERT INTO Allergie (untergruppe, allergie) VALUES (?, ?)";
-    public static final String SQL_UPDATE = "UPDATE Allergie SET untergruppe = ?, allergie = ? WHERE id = ?";
-    public static final String SQL_DELETE = "DELETE FROM Allergie WHERE id = ?";
+    private static final String SQL_ADD = "INSERT INTO Allergie (untergruppe, allergie) VALUES (?, ?)";
+    private static final String SQL_UPDATE = "UPDATE Allergie SET untergruppe = ?, allergie = ? WHERE id = ?";
+    private static final String SQL_DELETE = "DELETE FROM Allergie WHERE id = ?";
     DBConnection dbcon = new DBConnection();
     private static String TAB_ID = "id";
     private static final String TAB_BEZEICHNUNG = "allergie";

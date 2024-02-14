@@ -43,6 +43,37 @@ public class H2MainTester {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        String pTabelle = "Patient";
+
+        try (Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "")) {
+
+            Statement stmt = conn.createStatement();
+
+            String dropP = "DROP TABLE IF EXISTS " + pTabelle;
+            stmt.executeUpdate(dropP);
+
+            String createP = "CREATE TABLE IF NOT EXISTS " + pTabelle
+                    + "(id INTEGER NOT NULL auto_increment, " +
+                    "vorname VARCHAR(255), " +
+                    "nachname VARCHAR(255), " +
+                    "alter INTEGER," +
+                    "geschlecht VARCHAR(255)," +
+                    "raum VARCHAR(255)," +
+                    "allergie VARCHAR(255)," +
+                    "primary key(id))";
+            stmt.executeUpdate(createP);
+
+            String insertP = "INSERT INTO " + pTabelle +
+                    "(untergruppe, bezeichnung) " +
+                    "VALUES('1', 'Nuss')," +
+                    "('2', 'Milch')," +
+                    "('3', 'Laktose')";
+            stmt.executeUpdate(insertP);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void dbconnector(String query){

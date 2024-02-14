@@ -13,6 +13,16 @@ public class Patient {
     private String raum;
     private List<Allergen> allergene;
 
+    public Patient(int id, String vname, String nname, int alter, String geschlecht, String raum, List<Allergen> allergene) {
+        this.id = id;
+        this.vname = vname;
+        this.nname = nname;
+        this.alter = alter;
+        this.geschlecht = geschlecht;
+        this.raum = raum;
+        this.allergene = allergene;
+    }
+
 
     public int getId(){
         return id;
@@ -56,7 +66,7 @@ public class Patient {
         this.raum = raum;
     }
 
-    public List<Allergen> getPatientAllergene(){
+    public String getPatientAllergene() {
         return allergene;
     }
 

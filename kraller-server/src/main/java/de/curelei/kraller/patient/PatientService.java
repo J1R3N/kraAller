@@ -5,10 +5,12 @@ import de.curelei.kraller.ValidierungsException;
 import java.util.List;
 
 public interface PatientService {
-    Patient neu(Patient k) throws ValidierungsException;
+    void neu(Patient k) throws ValidierungsException;
     void aendern(Patient k) throws ValidierungsException;
     void loeschen(int patientNr);
 
     List<Patient> suchen(String suchBegriff);
+
+    List<Patient> getAll();
     Patient holen(int patientNr);
 }
