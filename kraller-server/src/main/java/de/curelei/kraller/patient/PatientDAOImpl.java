@@ -1,58 +1,70 @@
 package de.curelei.kraller.patient;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class PatientDAOImpl implements PatientDAO {
-    //private Datenbank patientDaten;
-    private Map<String, Patient> datensaetze;
+    private List<Patient> patients;
+    private int maxId;
 
-    public void PatientDAOImpl() {
-        //patientDaten = new Datenbank("<<ORT DER SQL DATENBANK>>";
-        //datensaetze = lese();
-    }
-    @Override
-    public void save(Patient k) {
-
-        datensaetze.put(k.getPatientRaum(), k);
-        String sqlsatz = "SELECT "+ k.getId() +" FROM " + datensaetze.getClass() + "WHERE [...]";
-        //patientDaten.schreibe(sqlsatz, true);
+    public PatientDAOImpl() {
+        this.patients = new ArrayList<>();
+        this.maxId = 0;
     }
 
     @Override
-    public void update(Patient k) {
-        for (int i = 0; i < datensaetze.size(); i++) {
-            Patient zuUpdaten = datensaetze.get(Integer.toString(i));
-            if (zuUpdaten.getId() == k.getId()) {
-                datensaetze.put(String.valueOf(zuUpdaten.getId()), zuUpdaten);
-                break;
+    public void save(Patient patient) {
+        patient.setId(getNextId());
+        patients.add(patient);
+        maxId = Math.max(maxId, patient.getId());
+    }
+
+
+    @Override
+    public void update(Patient updatedPatient) {
+        for (Patient patient : patients) {
+            if (patient.getId() == updatedPatient.getId()) {
+                patient.setNname(updatedPatient.getNname());
+                return;
             }
         }
-        writeToDatabase();
+
+        throw new RuntimeException("Patient not found for update with ID: " + updatedPatient.getId());
     }
-
-
 
     @Override
     public void delete(int id) {
-        for (Map.Entry<String, Patient> entry : datensaetze.entrySet()) {
-            if (entry.getValue().getId() == id){
-                datensaetze.remove(id);
-            }
-        }
+        patients.removeIf(patient -> patient.getId() == id);
     }
 
     @Override
     public Patient get(int id) {
-        return datensaetze.get(id);
+        for (Patient patient : patients) {
+            if (patient.getId() == id) {
+                return patient;
+            }
+        }
+
+        throw new RuntimeException("Patient not found with ID: " + id);
+    }
+
+    @Override
+    public List<Patient> search(String searchTerm) {
+        List<Patient> searchResults = new ArrayList<>();
+        for (Patient patient : patients) {
+            if (patient.getNname().contains(searchTerm)) {
+                searchResults.add(patient);
+            }
+        }
+        return searchResults;
     }
 
     @Override
     public int getMaxId() {
-        return 0;
+        return maxId;
     }
 
-
-    private void writeToDatabase(){
+    private int getNextId() {
+        return ++maxId;
     }
 }
