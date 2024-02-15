@@ -2,32 +2,19 @@ package de.curelei.kraller;
 
 import de.curelei.kraller.patient.Patient;
 import de.curelei.kraller.patient.PatientDAO;
-import de.curelei.kraller.patient.PatientDAOImpl;
-
-import java.util.List;
 
 public class KrallerServiceImpl implements KrallerService {
-    private static KrallerService instance;
-
     private final PatientDAO patientDao;
 
-    // einfache Variante ohne Sync.
-    public static KrallerService getInstance() {
-        if (instance == null) {
-            instance = new KrallerServiceImpl();
-        }
-        return instance;
-    }
-
-    private KrallerServiceImpl() {
-        System.out.println("Erzeuge Kunden-Service");
-        patientDao = new PatientDAOImpl();
+    // Constructor with PatientDAO parameter
+    public KrallerServiceImpl(PatientDAO patientDao) {
+        this.patientDao = patientDao;
     }
 
     @Override
     public Patient neu(Patient k) throws ValidierungsException {
         validiereKunde(k);
-        patientDao.add(k);
+        patientDao.save(k);
         return k;
     }
 
@@ -35,6 +22,7 @@ public class KrallerServiceImpl implements KrallerService {
         if (k.getNname() == null || k.getNname().isBlank()) {
             throw new ValidierungsException("Namchname ist ein Pflichtfeld.");
         }
+        return patient;
     }
 
     private String getNachsteId() {
@@ -43,25 +31,27 @@ public class KrallerServiceImpl implements KrallerService {
     }
 
     @Override
-    public void aendern(Patient k) {
-
+    public void aendern(Patient patient) {
+        try {
+            patientDao.update(patient);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Patient Änderung konnten nicht übernommen werden.", e);
+        }
     }
 
     @Override
     public void loeschen(int patientNr) {
-
-    }
-
-
-    @Override
-    public List<Patient> suchen(String suchbegriff) {
-        return null;
+        try {
+            patientDao.delete(patientNr);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Patient konnte nicht entfernt werden.", e);
+        }
     }
 
     @Override
     public Patient holen(int patientNr) {
         return patientDao.getByID(patientNr);
     }
-
 }
-

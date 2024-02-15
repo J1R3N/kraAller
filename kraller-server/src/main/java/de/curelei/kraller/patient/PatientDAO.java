@@ -1,18 +1,10 @@
 package de.curelei.kraller.patient;
 
-
-import java.util.List;
-
 public interface PatientDAO {
-    List<Patient> getAll();
-
-    Patient getByID(int id);
-
-    List<Patient> suchen(String suchBegriff);
-
-    void add(Patient patient);
-
-    void update(int id, Patient updatedPatient);
+    void save(Patient k);
+    void update(Patient k);
     void delete(int id);
+    Patient get(int id);
 
+    int getMaxId();
 }
