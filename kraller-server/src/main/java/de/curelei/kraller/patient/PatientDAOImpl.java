@@ -12,12 +12,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PatientDAOImpl implements PatientDAO {
-    public static final String SQL_SELECT_ALL = "select p.id pid, p.NACHNAME, p.vorname, p.alter, p.geschlecht,p.raum, a.id aid,  a.untergruppe, a.BEZEICHNUNG from PATIENT p, Allergie a, PATIENTALLERGIE pa" +
-            "where p.id = pa.PATIENT_ID" +
-            "AND a.id = pa.ALLERGIE_ID";
-    private static final String SQL_SELECT_ID = "select p.NACHNAME, p.vorname, p.alter, p.geschlecht,p.raum, a.untergruppe, a.BEZEICHNUNG from PATIENT p, Allergie a, PATIENTALLERGIE pa\n" +
-            "where p.id = pa.PATIENT_ID    \n" +
-            "   AND a.id = pa.ALLERGIE_ID AND id = ?";
+    public static final String SQL_SELECT_ALL = """
+            select p.id pid, p.NACHNAME, p.vorname, p.alter, p.geschlecht,p.raum, a.id aid,  a.untergruppe, a.BEZEICHNUNG from PATIENT p, Allergie a, PATIENTALLERGIE pa
+            where p.id = pa.PATIENT_ID
+            AND a.id = pa.ALLERGIE_ID
+            """;
+    private static final String SQL_SELECT_ID = """
+            select p.NACHNAME, p.vorname, p.alter, p.geschlecht,p.raum, a.untergruppe, a.BEZEICHNUNG from PATIENT p, Allergie a, PATIENTALLERGIE pa\n 
+            where p.id = pa.PATIENT_ID 
+               AND a.id = pa.ALLERGIE_ID AND id = ?
+               """;
     private static final String SQL_ADD = "INSERT INTO patient (vorname, nachname, alter, geschlecht, raum) VALUES (?, ?, ?, ?, ?)";
     private static final String SQL_UPDATE = "UPDATE patient SET vorname = ?, nachname = ?, alter = ?, geschlecht = ?, raum = ? WHERE id = ?";
     private static final String SQL_DELETE = "DELETE FROM patient WHERE id = ?";
@@ -67,12 +71,12 @@ public class PatientDAOImpl implements PatientDAO {
 
                     }
                 }
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
             throw new KrallerException("Fehler beim holen der Patientenaufzählung");
         }
-
         return patienten;
     }
 
@@ -117,14 +121,51 @@ public class PatientDAOImpl implements PatientDAO {
             e.printStackTrace();
             throw new KrallerException("Fehler bei Suche über ID");
         }
-
+        if (p.getNname() == null) {
+            return null;
+        }
         return p;
     }
 
     @Override
     public List<Patient> findByName(String suchBegriff) {
-        return null;
-        //TODO
+        List<Patient> patienten = new ArrayList<>();
+
+
+        try (Connection connection = dbcon.getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_ALL)) {
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+
+                        Patient existingPatient = findPatientById(patienten, resultSet.getInt(TAB_ID));
+                        if (existingPatient == null) {
+                            Patient patient = new Patient(
+                                    resultSet.getInt(TAB_ID),
+                                    resultSet.getString(TAB_VORNAME),
+                                    resultSet.getString(TAB_NACHNAME),
+                                    resultSet.getInt(TAB_ALTER),
+                                    resultSet.getString(TAB_GESCHLECHT),
+                                    resultSet.getString(TAB_RAUM));
+
+                            patienten.add(patient);
+                        }
+                        if (resultSet.getInt(TAB_AID) < 0) {
+                            Allergen allergie = new Allergen();
+                            allergie.setUntergruppe(resultSet.getString(TAB_UNTERGRUPPE));
+                            allergie.setBezeichnung(resultSet.getString(TAB_BEZEICHNUNG));
+                            assert existingPatient != null;
+                            existingPatient.addAllergen(allergie);
+                        }
+
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new KrallerException("Fehler beim holen der Patientenaufzählung");
+        }
+
+        return patienten;
     }
 
     @Override
