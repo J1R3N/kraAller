@@ -21,7 +21,7 @@ public class PatientServiceImpl implements PatientService {
         if (k == null) {
             throw new ValidierungsException("Fehler beim Ändern");
         }
-        patientDAO.update(k.getId(), k);
+        patientDAO.update(k);
     }
 
     @Override
@@ -32,17 +32,10 @@ public class PatientServiceImpl implements PatientService {
         patientDAO.delete(id);
     }
 
-    @Override
-    public List<Patient> suchen(String suchBegriff) {
-        if (suchBegriff == null) {
-            throw new IllegalArgumentException("Suchbegriff darf nicht leer sein");
-        }
-        return patientDAO.suchen(suchBegriff);
-    }
 
     @Override
     public List<Patient> getAll() {
-        return patientDAO.getAll();
+        return patientDAO.search();
     }
 
     @Override
@@ -50,6 +43,6 @@ public class PatientServiceImpl implements PatientService {
         if (id <= 0) {
             throw new IllegalArgumentException("Fehlerhafte ID");
         }
-        return patientDAO.getByID(id);
+        return patientDAO.get(id);
     }
 }
