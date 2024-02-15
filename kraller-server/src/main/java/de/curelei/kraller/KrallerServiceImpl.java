@@ -12,19 +12,22 @@ public class KrallerServiceImpl implements KrallerService {
     }
 
     @Override
-    public Patient neu(Patient patient) {
-        try {
-            patientDao.save(patient);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Patient konnte nicht gespiechert werden.", e);
+    public Patient neu(Patient k) throws ValidierungsException {
+        validiereKunde(k);
+        patientDao.save(k);
+        return k;
+    }
+
+    private void validiereKunde(Patient k) throws ValidierungsException {
+        if (k.getNname() == null || k.getNname().isBlank()) {
+            throw new ValidierungsException("Namchname ist ein Pflichtfeld.");
         }
         return patient;
     }
 
     private String getNachsteId() {
-        int id = patientDao.getMaxId() + 1;
-        return String.format("P%05d", id);
+// TODO
+        return null;
     }
 
     @Override
@@ -49,11 +52,6 @@ public class KrallerServiceImpl implements KrallerService {
 
     @Override
     public Patient holen(int patientNr) {
-        try {
-            return patientDao.get(patientNr);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Patient konnte nicht gefunden werden.", e);
-        }
+        return patientDao.getByID(patientNr);
     }
 }
