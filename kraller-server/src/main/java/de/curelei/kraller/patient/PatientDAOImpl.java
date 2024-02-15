@@ -1,5 +1,7 @@
 package de.curelei.kraller.patient;
 
+import de.curelei.kraller.KrallerException;
+import de.curelei.kraller.allergen.Allergen;
 import de.curelei.kraller.db.DBConnection;
 
 import java.sql.Connection;
@@ -8,88 +10,150 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class PatientDAOImpl implements PatientDAO {
-    private List<Patient> patients;
-    private int maxId;
-    private static final String INSERT_QUERY = "INSERT INTO patient (name) VALUES (?)";
-    private static final String SELECT_ALL_QUERY = "SELECT * FROM patient";
+    public static final String SQL_SELECT_ALL = "SELECT * FROM patient";
+    private static final String SQL_SELECT_ID = "SELECT * FROM patient WHERE id = ?";
+    private static final String SQL_ADD = "INSERT INTO patient (vorname, nachname, alter, geschlecht, raum, allergen) VALUES (?, ?, ?, ?, ?)";
+    private static final String SQL_UPDATE = "UPDATE patient SET vorname = ?, nachname = ?, alter = ?, geschlecht = ?, raum = ? WHERE id = ?";
+    private static final String SQL_DELETE = "DELETE FROM patient WHERE id = ?";
 
-    public PatientDAOImpl() {
-        this.patients = new ArrayList<>();
-        this.maxId = 0;
-    }
+    DBConnection dbcon = new DBConnection();
+    private static String TAB_ID = "id";
+    private static String TAB_VORNAME = "vorname";
+    private static String TAB_NACHNAME = "nachname";
+    private static String TAB_ALTER = "alter";
+    private static String TAB_GESCHLECHT = "geschlecht";
+    private static String TAB_RAUM = "raum";
+    private static String TAB_ALLERGIE = "allergie";
 
-    @Override
-    public void save(Patient patient) {
-        DBConnection DatabaseConnector;
-        try (Connection connection = DBConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(INSERT_QUERY)) {
-            statement.setString(1, patient.getNname());
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            handleSQLException(e);
-        }
-    }
-
-    private void handleSQLException(SQLException e) {
-        // Add your specific exception handling logic here
-        e.printStackTrace();
-    }
 
     @Override
-    public void update(Patient updatedPatient) {
-        for (Patient patient : patients) {
-            if (patient.getId() == updatedPatient.getId()) {
-                patient.setNname(updatedPatient.getNname());
-                return;
+    public List<Patient> getAll() {
+        List<Patient> patienten = new ArrayList<>();
+
+        try (Connection connection = dbcon.getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_ALL)) {
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+
+                        Map<String, Class<Allergen>> Allergen;
+                        Patient patient = new Patient(
+                                resultSet.getInt(TAB_ID),
+                                resultSet.getString(TAB_VORNAME),
+                                resultSet.getString(TAB_NACHNAME),
+                                resultSet.getInt(TAB_ALTER),
+                                resultSet.getString(TAB_GESCHLECHT),
+                                resultSet.getString(TAB_RAUM)
+                                //          resultSet.getObject(TAB_ALLERGIE, Allergen)
+                        );
+                        patienten.add(patient);
+                    }
+                }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new KrallerException("Fehler beim holen der Patientenaufzählung");
         }
 
-        throw new RuntimeException("Patient not found for update with ID: " + updatedPatient.getId());
+        return patienten;
+    }
+
+    @Override
+    public Patient getByID(int id) {
+        String vorname = null;
+        String nachname = null;
+        int alter = 0;
+        String geschlecht = null;
+        String raum = null;
+        String allergie = null;
+
+        try (Connection connection = dbcon.getConnection()) {
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SELECT_ID)) {
+                preparedStatement.setInt(1, id);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        vorname = resultSet.getString(TAB_VORNAME);
+                        nachname = resultSet.getString(TAB_NACHNAME);
+                        alter = resultSet.getInt(TAB_ALTER);
+                        geschlecht = resultSet.getString(TAB_GESCHLECHT);
+                        raum = resultSet.getString(TAB_RAUM);
+//                        allergie = resultSet.getString(TAB_ALLERGIE);
+                        return new Patient(id, vorname, nachname, alter, geschlecht, raum);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new KrallerException("Fehler bei Suche über ID");
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<Patient> suchen(String suchBegriff) {
+        return null;
+    }
+
+    @Override
+    public void add(Patient patient) {
+        try (Connection connection = dbcon.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_ADD)) {
+            preparedStatement.setString(1, patient.getVname());
+            preparedStatement.setString(2, patient.getNname());
+            preparedStatement.setInt(3, patient.getAlter());
+            preparedStatement.setString(4, patient.getGeschlecht());
+            preparedStatement.setString(5, patient.getPatientRaum());
+//            preparedStatement.setString(6, patient.getPatientAllergene());
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println("Fehler bei Hinzufügen des Patienten");
+        }
+        System.out.println(patient.getVname() + " " + patient.getNname() + " hinzugefügt");
+
+    }
+
+    @Override
+    public void update(int id, Patient updatedPatient) {
+        try (Connection connection = dbcon.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
+            preparedStatement.setString(1, updatedPatient.getVname());
+            preparedStatement.setString(2, updatedPatient.getNname());
+            preparedStatement.setInt(3, updatedPatient.getAlter());
+            preparedStatement.setString(4, updatedPatient.getGeschlecht());
+            preparedStatement.setString(5, updatedPatient.getPatientRaum());
+            //  preparedStatement.setString(6, updatedPatient.getPatientAllergene());
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new KrallerException("Fehler beim Updaten von " + updatedPatient.getNname());
+        }
+        System.out.println(updatedPatient.getVname() + " " + updatedPatient.getNname() + "erfolgreich geändert");
     }
 
     @Override
     public void delete(int id) {
-        patients.removeIf(patient -> patient.getId() == id);
-    }
 
-    @Override
-    public Patient get(int id) {
-        for (Patient patient : patients) {
-            if (patient.getId() == id) {
-                return patient;
-            }
-        }
+        try (Connection connection = dbcon.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {
+            preparedStatement.setInt(1, id);
 
-        throw new RuntimeException("Patient not found with ID: " + id);
-    }
+            preparedStatement.executeUpdate();
 
-    @Override
-    public List<Patient> search() {
-        List<Patient> persons = new ArrayList<>();
-        try (Connection connection = DBConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SELECT_ALL_QUERY);
-             ResultSet resultSet = statement.executeQuery()) {
-
-            while (resultSet.next()) {
-                Patient patient = new Patient();
-                patient.setId(resultSet.getInt("id"));
-                patient.setNname(resultSet.getString("name"));
-                persons.add(patient);
-            }
         } catch (SQLException e) {
-            handleSQLException(e);
+            e.printStackTrace();
+            throw new KrallerException("Fehler beim Löschen mit ID " + id);
         }
-        return persons;
+        System.out.println(id + " erfolgreich gelöscht");
     }
 
-    @Override
-    public int getMaxId() {
-        return maxId;
-    }
-
-    private int getNextId() {
-        return ++maxId;
-    }
 }
