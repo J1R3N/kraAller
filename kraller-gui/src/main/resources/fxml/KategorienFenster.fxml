@@ -17,7 +17,7 @@
             onAction="#oeffneAlkoholfreieGetränke"/>
     <Button layoutX="14.0" layoutY="125.0" mnemonicParsing="false" text="Spirituosen" onAction="#oeffneSpirituosen"/>
     <Button layoutX="14.0" layoutY="150.0" mnemonicParsing="false" text="Eis/Desserts/Gebäck"
-            onAction="#oeffneEisDessertGebäck"/>
+            onAction="#oeffneEisDessertsGebäck"/>
     <Button layoutX="14.0" layoutY="175.0" mnemonicParsing="false" text="Suppen" onAction="#oeffneSuppen"/>
     <Button layoutX="14.0" layoutY="200.0" mnemonicParsing="false" text="Toast´s" onAction="#oeffneToasts"/>
     <Button layoutX="14.0" layoutY="225.0" mnemonicParsing="false" text="Pfannengerichte"

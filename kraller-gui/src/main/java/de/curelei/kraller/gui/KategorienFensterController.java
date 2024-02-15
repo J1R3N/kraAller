@@ -101,7 +101,7 @@ public class KategorienFensterController {
         }
     }
 
-    public void oeffneEisDessertGebäck() {
+    public void oeffneEisDessertsGebäck() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Kategorien/EisDessertsGebäck.fxml"));
             Parent root = loader.load();

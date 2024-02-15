@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="de.curelei.kraller.gui.WeiteresFensterController"
+            fx:controller="de.curelei.kraller.gui.KategorienFensterController"
             prefHeight="400.0" prefWidth="600.0">
-
+    <children>
+        <Button layoutX="267.0" layoutY="363.0" mnemonicParsing="false" text="Schließen" onAction="#schließeFenster"/>
+        <CheckBox layoutX="40.0" layoutY="20.0" text="Pommes"/>
+        <CheckBox layoutX="40.0" layoutY="40.0" text="Kartoffelecken"/>
+        <CheckBox layoutX="40.0" layoutY="60.0" text="Süßkarftoffelpommes"/>
+        <CheckBox layoutX="40.0" layoutY="80.0" text="Salat"/>
+    </children>
 </AnchorPane>
