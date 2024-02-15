@@ -14,7 +14,13 @@ javafx {
 mainClassName = "de.curelei.kraller.gui.KrallerApp"
 dependencies {
     implementation project(":kraller-server")
-    testImplementation  'org.junit.jupiter:junit-jupiter-api:5.7.2'
-    testImplementation  'org.junit.jupiter:junit-jupiter-engine:5.7.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
     testImplementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+    testImplementation 'org.testfx:testfx-core:4.0.16-alpha'
+    testImplementation 'org.testfx:testfx-junit5:4.0.16-alpha'
+
+}
+test {
+    useJUnitPlatform()
 }
