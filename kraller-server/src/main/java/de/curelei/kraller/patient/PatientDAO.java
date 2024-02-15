@@ -12,7 +12,7 @@ public interface PatientDAO {
 
     Patient get(int id);
 
-    List<Patient> search(String searchTerm);
+    List<Patient> search();
 
     int getMaxId();
 }

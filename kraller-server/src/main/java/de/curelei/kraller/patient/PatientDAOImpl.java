@@ -1,11 +1,19 @@
 package de.curelei.kraller.patient;
 
+import de.curelei.kraller.db.DBConnection;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PatientDAOImpl implements PatientDAO {
     private List<Patient> patients;
     private int maxId;
+    private static final String INSERT_QUERY = "INSERT INTO patient (name) VALUES (?)";
+    private static final String SELECT_ALL_QUERY = "SELECT * FROM patient";
 
     public PatientDAOImpl() {
         this.patients = new ArrayList<>();
@@ -14,11 +22,20 @@ public class PatientDAOImpl implements PatientDAO {
 
     @Override
     public void save(Patient patient) {
-        patient.setId(getNextId());
-        patients.add(patient);
-        maxId = Math.max(maxId, patient.getId());
+        DBConnection DatabaseConnector;
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(INSERT_QUERY)) {
+            statement.setString(1, patient.getNname());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            handleSQLException(e);
+        }
     }
 
+    private void handleSQLException(SQLException e) {
+        // Add your specific exception handling logic here
+        e.printStackTrace();
+    }
 
     @Override
     public void update(Patient updatedPatient) {
@@ -49,14 +66,22 @@ public class PatientDAOImpl implements PatientDAO {
     }
 
     @Override
-    public List<Patient> search(String searchTerm) {
-        List<Patient> searchResults = new ArrayList<>();
-        for (Patient patient : patients) {
-            if (patient.getNname().contains(searchTerm)) {
-                searchResults.add(patient);
+    public List<Patient> search() {
+        List<Patient> persons = new ArrayList<>();
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SELECT_ALL_QUERY);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                Patient patient = new Patient();
+                patient.setId(resultSet.getInt("id"));
+                patient.setNname(resultSet.getString("name"));
+                persons.add(patient);
             }
+        } catch (SQLException e) {
+            handleSQLException(e);
         }
-        return searchResults;
+        return persons;
     }
 
     @Override

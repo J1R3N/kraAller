@@ -1,20 +1,50 @@
 package de.curelei.kraller.gui;
 
 import de.curelei.kraller.KraAllerApp;
+import de.curelei.kraller.patient.Patient;
+import de.curelei.kraller.patient.PatientDAO;
+import de.curelei.kraller.patient.PatientDAOImpl;
 import javafx.application.Application;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
 public class KrallerApp extends Application {
     public static void main(String[] args) {
         launch();
     }
+
+    @FXML
+    private TableView<Patient> personTable;
+
+    @FXML
+    private TableColumn<Patient, Integer> idColumn;
+
+    @FXML
+    private TableColumn<Patient, String> infoColumn;
+
+    private final PatientDAO personDAO = new PatientDAOImpl();
+
+    @FXML
+    private void initialize() {
+        // Set up cell value factories for columns
+        idColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getId()));
+        infoColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getNname()));
+
+        // Populate the TableView with data
+        List<Patient> patients = personDAO.search();
+        personTable.getItems().addAll(patients);
+    }
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -27,6 +57,7 @@ public class KrallerApp extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
 
     @FXML
     private void oeffneWeiteresFenster() {
