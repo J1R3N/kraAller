@@ -9,6 +9,7 @@ public class Patient {
     private String vname;
     private String nname;
     private int alter;
+    private String geschlecht;
     private String raum;
     private List<Allergen> allergene;
 
@@ -47,7 +48,6 @@ public class Patient {
     public String getNname() {
         return nname;
     }
-
     public void setNname(String nname) {
         this.nname = nname;
     }
@@ -58,6 +58,14 @@ public class Patient {
 
     public void setAlter(int alter) {
         this.alter = alter;
+    }
+
+    public String getGeschlecht() {
+        return geschlecht;
+    }
+
+    public void setGeschlecht(String geschlecht) {
+        this.geschlecht = geschlecht;
     }
 
     public String getPatientRaum() {
