@@ -120,6 +120,6 @@ public class AllergenDAOImpl implements AllergenDAO {
             e.printStackTrace();
             throw new KrallerException("Fehler beim Löschen mit ID " + id);
         }
-        System.out.println(id + " erfolgreich gelöscht");
+        System.out.println(id + " erfolgreich gelöscht!");
     }
 }
