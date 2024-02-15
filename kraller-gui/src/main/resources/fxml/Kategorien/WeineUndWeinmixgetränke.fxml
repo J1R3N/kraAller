@@ -17,5 +17,4 @@
         <CheckBox layoutX="40.0" layoutY=" 140.0" text="Likörwein"/>
 
     </children>
-
 </AnchorPane>
