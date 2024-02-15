@@ -13,7 +13,7 @@ public class PatientServiceImpl implements PatientService {
         if (k == null) {
             throw new ValidierungsException("Fehler beim Anlegen des Patienten");
         }
-        patientDAO.add(k);
+        patientDAO.save(k);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class PatientServiceImpl implements PatientService {
         if (suchBegriff == null) {
             throw new IllegalArgumentException("Suchbegriff darf nicht leer sein");
         }
-        return patientDAO.suchen(suchBegriff);
+        return patientDAO.findByName(suchBegriff);
     }
 
     @Override

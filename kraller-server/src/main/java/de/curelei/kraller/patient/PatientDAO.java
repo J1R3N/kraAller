@@ -8,9 +8,9 @@ public interface PatientDAO {
 
     Patient getByID(int id);
 
-    List<Patient> suchen(String suchBegriff);
+    List<Patient> findByName(String suchBegriff);
 
-    void add(Patient patient);
+    void save(Patient patient);
 
     void update(int id, Patient updatedPatient);
     void delete(int id);

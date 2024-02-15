@@ -13,6 +13,11 @@ public class Patient {
     private String raum;
     private List<Allergen> allergene;
 
+    public Patient() {
+    }
+
+    ;
+
     public Patient(int id, String vname, String nname, int alter, String geschlecht, String raum) {
         this.id = id;
         this.vname = vname;
@@ -72,6 +77,10 @@ public class Patient {
 
     public void setAllergene(List<Allergen> allergene) {
         this.allergene = allergene;
+    }
+
+    public void addAllergen(Allergen allergie) {
+        allergene.add(allergie);
     }
 
 }

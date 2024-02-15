@@ -27,7 +27,7 @@ public class KrallerServiceImpl implements KrallerService {
     @Override
     public Patient neu(Patient k) throws ValidierungsException {
         validiereKunde(k);
-        patientDao.add(k);
+        patientDao.save(k);
         return k;
     }
 

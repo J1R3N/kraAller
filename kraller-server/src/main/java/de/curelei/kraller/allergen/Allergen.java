@@ -12,6 +12,10 @@ public class Allergen {
         this.bezeichnung = bezeichnung;
     }
 
+    public Allergen() {
+
+    }
+
     public String getUntergruppe(){
         return unterGruppe;
     }
