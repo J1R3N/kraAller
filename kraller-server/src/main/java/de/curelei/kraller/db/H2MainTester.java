@@ -36,8 +36,7 @@ public class H2MainTester {
                     "(untergruppe, bezeichnung) " +
                     "VALUES('1', 'Nuss')," +
                     "('2', 'Milch')," +
-                    "('3', 'Laktose')"
-                    ;
+                    "('3', 'Laktose')";
             stmt.executeUpdate(insertA);
 
         } catch (SQLException e) {
@@ -64,19 +63,28 @@ public class H2MainTester {
                     "primary key(id))";
             stmt.executeUpdate(createP);
 
+            String createJPA = "CREATE TABLE PatientAllergie (" +
+                    "patient_id INT," +
+                    "allergie_id INT," +
+                    "PRIMARY KEY (patient_id, allergie_id)," +
+                    "FOREIGN KEY (patient_id) REFERENCES Patient(id)," +
+                    "FOREIGN KEY (allergie_id) REFERENCES Allergie(id)" +
+                    ")";
+            stmt.executeUpdate(createJPA);
+
             String insertP = "INSERT INTO " + pTabelle +
-                    "(untergruppe, bezeichnung) " +
-                    "VALUES('1', 'Nuss')," +
-                    "('2', 'Milch')," +
-                    "('3', 'Laktose')";
+                    "(vorname, nachname, alter, geschlecht, raum, allergie) " +
+                    "VALUES('max', 'Nuss', '10', 'm', '301', 'Nuss')," +
+                    "('maxi', 'muster', '11', 'm', '302', 'Laktose')";
             stmt.executeUpdate(insertP);
+
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static void dbconnector(String query){
+    public static void dbconnector(String query) {
         try (Connection conn = DriverManager.getConnection("jdbc:h2:~/test", "sa", "")) {
 
             Statement stmt = conn.createStatement();

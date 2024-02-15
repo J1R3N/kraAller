@@ -13,14 +13,14 @@ public class Patient {
     private String raum;
     private List<Allergen> allergene;
 
-    public Patient(int id, String vname, String nname, int alter, String geschlecht, String raum, List<Allergen> allergene) {
+    public Patient(int id, String vname, String nname, int alter, String geschlecht, String raum) {
         this.id = id;
         this.vname = vname;
         this.nname = nname;
         this.alter = alter;
         this.geschlecht = geschlecht;
         this.raum = raum;
-        this.allergene = allergene;
+//        this.allergene = allergene;
     }
 
 
@@ -66,7 +66,7 @@ public class Patient {
         this.raum = raum;
     }
 
-    public String getPatientAllergene() {
+    public List<Allergen> getPatientAllergene() {
         return allergene;
     }
 

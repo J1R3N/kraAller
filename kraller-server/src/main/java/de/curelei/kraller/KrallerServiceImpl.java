@@ -27,7 +27,7 @@ public class KrallerServiceImpl implements KrallerService {
     @Override
     public Patient neu(Patient k) throws ValidierungsException {
         validiereKunde(k);
-        patientDao.save(k);
+        patientDao.add(k);
         return k;
     }
 
@@ -38,8 +38,8 @@ public class KrallerServiceImpl implements KrallerService {
     }
 
     private String getNachsteId() {
-        int id = patientDao.getMaxId() + 1;
-        return String.format("P%05d", id);
+// TODO
+        return null;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class KrallerServiceImpl implements KrallerService {
 
     @Override
     public Patient holen(int patientNr) {
-        return patientDao.get(patientNr);
+        return patientDao.getByID(patientNr);
     }
 
 }

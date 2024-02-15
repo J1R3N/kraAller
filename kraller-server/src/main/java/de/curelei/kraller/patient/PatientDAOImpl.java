@@ -15,8 +15,8 @@ import java.util.Map;
 public class PatientDAOImpl implements PatientDAO {
     public static final String SQL_SELECT_ALL = "SELECT * FROM patient";
     private static final String SQL_SELECT_ID = "SELECT * FROM patient WHERE id = ?";
-    private static final String SQL_ADD = "INSERT INTO patient (vorname, nachname, alter, geschlecht, raum, allergen) VALUES (?, ?, ?, ?, ?, ?)";
-    private static final String SQL_UPDATE = "UPDATE patient SET vorname = ?, nachname = ?, alter = ?, geschlecht = ?, raum = ?, allergen = ? WHERE id = ?";
+    private static final String SQL_ADD = "INSERT INTO patient (vorname, nachname, alter, geschlecht, raum, allergen) VALUES (?, ?, ?, ?, ?)";
+    private static final String SQL_UPDATE = "UPDATE patient SET vorname = ?, nachname = ?, alter = ?, geschlecht = ?, raum = ? WHERE id = ?";
     private static final String SQL_DELETE = "DELETE FROM patient WHERE id = ?";
 
     DBConnection dbcon = new DBConnection();
@@ -45,8 +45,8 @@ public class PatientDAOImpl implements PatientDAO {
                                 resultSet.getString(TAB_NACHNAME),
                                 resultSet.getInt(TAB_ALTER),
                                 resultSet.getString(TAB_GESCHLECHT),
-                                resultSet.getString(TAB_RAUM),
-                                resultSet.getObject(TAB_ALLERGIE, Allergen)
+                                resultSet.getString(TAB_RAUM)
+                                //          resultSet.getObject(TAB_ALLERGIE, Allergen)
                         );
                         patienten.add(patient);
                     }
@@ -81,8 +81,8 @@ public class PatientDAOImpl implements PatientDAO {
                         alter = resultSet.getInt(TAB_ALTER);
                         geschlecht = resultSet.getString(TAB_GESCHLECHT);
                         raum = resultSet.getString(TAB_RAUM);
-                        allergie = resultSet. (TAB_ALLERGIE);
-                        return new Patient(id, vorname, nachname, alter, geschlecht, raum, allergie);
+//                        allergie = resultSet.getString(TAB_ALLERGIE);
+                        return new Patient(id, vorname, nachname, alter, geschlecht, raum);
                     }
                 }
             }
@@ -108,7 +108,7 @@ public class PatientDAOImpl implements PatientDAO {
             preparedStatement.setInt(3, patient.getAlter());
             preparedStatement.setString(4, patient.getGeschlecht());
             preparedStatement.setString(5, patient.getPatientRaum());
-            preparedStatement.setString(6, patient.getPatientAllergene());
+//            preparedStatement.setString(6, patient.getPatientAllergene());
 
             preparedStatement.executeUpdate();
 
@@ -129,7 +129,7 @@ public class PatientDAOImpl implements PatientDAO {
             preparedStatement.setInt(3, updatedPatient.getAlter());
             preparedStatement.setString(4, updatedPatient.getGeschlecht());
             preparedStatement.setString(5, updatedPatient.getPatientRaum());
-            preparedStatement.setString(6, updatedPatient.getPatientAllergene());
+            //  preparedStatement.setString(6, updatedPatient.getPatientAllergene());
 
             preparedStatement.executeUpdate();
 
