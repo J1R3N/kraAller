@@ -12,18 +12,11 @@ public class KrallerServiceImpl implements KrallerService {
     }
 
     @Override
-    public Patient neu(Patient k) throws ValidierungsException {
-        validiereKunde(k);
+    public Patient neu(Patient k) {
         patientDao.save(k);
         return k;
     }
 
-    private void validiereKunde(Patient k) throws ValidierungsException {
-        if (k.getNname() == null || k.getNname().isBlank()) {
-            throw new ValidierungsException("Namchname ist ein Pflichtfeld.");
-        }
-        return patient;
-    }
 
     private String getNachsteId() {
 // TODO
@@ -52,6 +45,6 @@ public class KrallerServiceImpl implements KrallerService {
 
     @Override
     public Patient holen(int patientNr) {
-        return patientDao.getByID(patientNr);
+        return patientDao.get(patientNr);
     }
 }
