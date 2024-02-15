@@ -41,7 +41,7 @@ public class AllergenDAOImpl implements AllergenDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new KrallerException("Fehler beim holen der Allergenaufzählung");
+            throw new KrallerException("Fehler beim Holen der Allergenaufzählung");
         }
 
         return allergens;
@@ -77,10 +77,10 @@ public class AllergenDAOImpl implements AllergenDAO {
     public void add(Allergen allergen) {
         try (Connection connection = dbcon.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_ADD)) {
-                preparedStatement.setString(1, allergen.getUntergruppe());
-                preparedStatement.setString(2, allergen.getBezeichnung());
+            preparedStatement.setString(1, allergen.getUntergruppe());
+            preparedStatement.setString(2, allergen.getBezeichnung());
 
-                preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -94,11 +94,11 @@ public class AllergenDAOImpl implements AllergenDAO {
     public void update(int id, Allergen updatedAllergen) {
         try (Connection connection = dbcon.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
-                preparedStatement.setString(1, updatedAllergen.getUntergruppe());
-                preparedStatement.setString(2, updatedAllergen.getBezeichnung());
-                preparedStatement.setInt(3, id);
+            preparedStatement.setString(1, updatedAllergen.getUntergruppe());
+            preparedStatement.setString(2, updatedAllergen.getBezeichnung());
+            preparedStatement.setInt(3, id);
 
-                preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
