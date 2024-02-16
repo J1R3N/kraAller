@@ -7,40 +7,41 @@ public class AllergenServiceImpl implements AllergenService {
 
     @Override
     public List<Allergen> hole() {
-        return allergenDAO.getAll();
+        return allergenDAO.getAllAllergene();
     }
 
     @Override
     public Allergen sucheMitId(int id) {
-        if(id <= 0){
+        if (id <= 0) {
             throw new IllegalArgumentException("Fehlerhafte ID");
         }
-        return allergenDAO.getById(id);
+        return allergenDAO.getAllergenById(id);
     }
-//
+
+    //
     @Override
     public void neu(Allergen allergen) {
-        if(allergen != null){
+        if (allergen != null) {
             System.out.println("Neue Allergie angelegt");
-            allergenDAO.add(allergen);
+            allergenDAO.addAllergen(allergen);
         }
 
     }
 
     @Override
     public void aendern(int id, Allergen updatedAllergen) {
-        if(updatedAllergen != null){
+        if (updatedAllergen != null) {
             System.out.println(updatedAllergen + " geändert");
-            allergenDAO.update(id, updatedAllergen);
+            allergenDAO.updateAllergen(updatedAllergen);
         }
     }
 
     @Override
     public void loeschen(int id) {
 
-        if(id <= 0){
+        if (id <= 0) {
             throw new IllegalArgumentException("Fehlerhafte ID");
         }
-        allergenDAO.delete(id);
+        allergenDAO.deleteAllergen(id);
     }
 }

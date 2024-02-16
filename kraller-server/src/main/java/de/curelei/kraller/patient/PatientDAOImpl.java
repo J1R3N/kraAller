@@ -29,8 +29,7 @@ public class PatientDAOImpl implements PatientDAO {
     private static String TAB_ALLERGIE = "allergie";
 
 
-    @Override
-    public List<Patient> getAll() {
+    public List<Patient> getAllPatients() {
         List<Patient> patienten = new ArrayList<>();
 
         try (Connection connection = dbcon.getConnection()) {
@@ -44,7 +43,6 @@ public class PatientDAOImpl implements PatientDAO {
                                 resultSet.getString(TAB_VORNAME),
                                 resultSet.getString(TAB_NACHNAME),
                                 resultSet.getInt(TAB_ALTER),
-                                resultSet.getString(TAB_GESCHLECHT),
                                 resultSet.getString(TAB_RAUM)
                                 //          resultSet.getObject(TAB_ALLERGIE, Allergen)
                         );
@@ -60,8 +58,8 @@ public class PatientDAOImpl implements PatientDAO {
         return patienten;
     }
 
-    @Override
-    public Patient getByID(int id) {
+
+    public Patient getPatientByID(int id) {
         String vorname = null;
         String nachname = null;
         int alter = 0;
@@ -82,7 +80,7 @@ public class PatientDAOImpl implements PatientDAO {
                         geschlecht = resultSet.getString(TAB_GESCHLECHT);
                         raum = resultSet.getString(TAB_RAUM);
 //                        allergie = resultSet.getString(TAB_ALLERGIE);
-                        return new Patient(id, vorname, nachname, alter, geschlecht, raum);
+                        return new Patient(id, vorname, nachname, alter, raum);
                     }
                 }
             }
@@ -94,19 +92,23 @@ public class PatientDAOImpl implements PatientDAO {
         return null;
     }
 
-    @Override
-    public List<Patient> suchen(String suchBegriff) {
+
+    public void savePatient(Patient patient) {
+
+    }
+
+
+    public List<Patient> suchenPatient(String suchBegriff) {
         return null;
     }
 
-    @Override
-    public void add(Patient patient) {
+
+    public void addPatient(Patient patient) {
         try (Connection connection = dbcon.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_ADD)) {
             preparedStatement.setString(1, patient.getVname());
             preparedStatement.setString(2, patient.getNname());
             preparedStatement.setInt(3, patient.getAlter());
-            preparedStatement.setString(4, patient.getGeschlecht());
             preparedStatement.setString(5, patient.getPatientRaum());
 //            preparedStatement.setString(6, patient.getPatientAllergene());
 
@@ -120,14 +122,13 @@ public class PatientDAOImpl implements PatientDAO {
 
     }
 
-    @Override
-    public void update(int id, Patient updatedPatient) {
+
+    public void updatePatient(Patient updatedPatient) {
         try (Connection connection = dbcon.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
             preparedStatement.setString(1, updatedPatient.getVname());
             preparedStatement.setString(2, updatedPatient.getNname());
             preparedStatement.setInt(3, updatedPatient.getAlter());
-            preparedStatement.setString(4, updatedPatient.getGeschlecht());
             preparedStatement.setString(5, updatedPatient.getPatientRaum());
             //  preparedStatement.setString(6, updatedPatient.getPatientAllergene());
 
@@ -140,8 +141,8 @@ public class PatientDAOImpl implements PatientDAO {
         System.out.println(updatedPatient.getVname() + " " + updatedPatient.getNname() + "erfolgreich geändert");
     }
 
-    @Override
-    public void delete(int id) {
+
+    public void deletePatient(int id) {
 
         try (Connection connection = dbcon.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {

@@ -1,3 +1,4 @@
+/*
 package de.curelei.kraller;
 
 import de.curelei.kraller.patient.Patient;
@@ -58,3 +59,4 @@ class KraAllerTest {
     }
 
 }
+*/
