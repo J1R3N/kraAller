@@ -65,13 +65,10 @@ public class KrallerApp extends Application {
             gerichtTable.setItems(observableGerichtList);
             gerichtTable.refresh();
 
-            for (Gericht gericht : gerichtList) {
-                System.out.println("ID: " + gericht.getId() + ", Name: " + gericht.getBezeichnung());
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("Gerichte wurden geladen");
+        System.out.println("Gerichte wurden geladen!");
     }
 
     @FXML
