@@ -13,7 +13,7 @@ public class PatientServiceImpl implements PatientService {
         if (k == null) {
             throw new ValidierungsException("Fehler beim Anlegen des Patienten");
         }
-        patientDAO.add(k);
+        patientDAO.addPatient(k);
     }
 
     @Override
@@ -21,7 +21,7 @@ public class PatientServiceImpl implements PatientService {
         if (k == null) {
             throw new ValidierungsException("Fehler beim Ändern");
         }
-        patientDAO.update(k);
+        patientDAO.updatePatient(k);
     }
 
     @Override
@@ -29,13 +29,20 @@ public class PatientServiceImpl implements PatientService {
         if (id <= 0) {
             throw new IllegalArgumentException("Fehlerhafte ID");
         }
-        patientDAO.delete(id);
+        patientDAO.deletePatient(id);
     }
 
+    @Override
+    public List<Patient> suchen(String suchBegriff) {
+        if (suchBegriff == null) {
+            throw new IllegalArgumentException("Suchbegriff darf nicht leer sein");
+        }
+        return patientDAO.suchenPatient(suchBegriff);
+    }
 
     @Override
     public List<Patient> getAll() {
-        return patientDAO.search();
+        return patientDAO.getAllPatients();
     }
 
     @Override
@@ -43,6 +50,6 @@ public class PatientServiceImpl implements PatientService {
         if (id <= 0) {
             throw new IllegalArgumentException("Fehlerhafte ID");
         }
-        return patientDAO.get(id);
+        return patientDAO.getPatientByID(id);
     }
 }

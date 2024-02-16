@@ -1,11 +1,14 @@
 package de.curelei.kraller.gui;
 
-import de.curelei.kraller.KraAllerApp;
-import de.curelei.kraller.patient.Patient;
-import de.curelei.kraller.patient.PatientDAO;
-import de.curelei.kraller.patient.PatientDAOImpl;
+import de.curelei.kraller.KrallerService;
+import de.curelei.kraller.KrallerServiceImpl;
+import de.curelei.kraller.db.AllergenDAOH2Impl;
+import de.curelei.kraller.db.GerichtDAOH2Impl;
+import de.curelei.kraller.db.PatientDAOH2Impl;
+import de.curelei.kraller.gericht.Gericht;
 import javafx.application.Application;
-import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,47 +18,58 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 
 public class KrallerApp extends Application {
-    public static void main(String[] args) {
-        launch();
+    private KrallerService krallerService;
+
+    public KrallerApp() {
+        krallerService = new KrallerServiceImpl(new PatientDAOH2Impl(), new GerichtDAOH2Impl(), new AllergenDAOH2Impl());
     }
 
-    @FXML
-    private TableView<Patient> personTable;
-
-    @FXML
-    private TableColumn<Patient, Integer> idColumn;
-
-    @FXML
-    private TableColumn<Patient, String> infoColumn;
-
-    private final PatientDAO patientDAO = new PatientDAOImpl();
-
-    @FXML
-    private void initialize() {
-        // Set up cell value factories for columns
-        idColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getId()));
-        infoColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getNname()));
-
-        // Populate the TableView with data
-        List<Patient> patients = patientDAO.search();
-        personTable.getItems().addAll(patients);
+    public KrallerApp(KrallerService krallerService) {
+        this.krallerService = krallerService;
     }
 
+
+    @FXML
+    private TableView<Gericht> gerichtTable;
+    @FXML
+    private TableColumn<Gericht, Integer> idColumn;
+
+    @FXML
+    private TableColumn<Gericht, String> infoColumn;
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        KraAllerApp s = new KraAllerApp();
-        URL res = getClass
-                ().getResource("/fxml/HauptFenster.fxml");
-        Parent root = FXMLLoader.load(res);
-        primaryStage.setTitle("Allergen-Auskunft");
-        Scene scene = new Scene(root, 500, 300);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+    public void start(Stage primaryStage) {
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Hauptfenster.fxml"));
+            loader.setController(this); // Set the controller to the current instance of KrallerApp
+            Scene scene = new Scene(loader.load());
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("Allergenauskunft");
+            primaryStage.show();
+            System.out.println("Applikation wurde gestartet");
+            loadGerichtData();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadGerichtData() {
+        try {
+            List<Gericht> gerichtList = krallerService.getAllGerichte();
+            ObservableList<Gericht> observableGerichtList = FXCollections.observableArrayList(gerichtList);
+
+            gerichtTable.setItems(observableGerichtList);
+            gerichtTable.refresh();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("Gerichte wurden geladen!");
     }
 
     @FXML
@@ -68,6 +82,7 @@ public class KrallerApp extends Application {
             w.setScene(new Scene(root));
             w.setTitle("WeiteresFenster");
             w.show();
+            System.out.println("WeiteresFenster wurden geladen");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -83,11 +98,26 @@ public class KrallerApp extends Application {
             k.setScene(new Scene(root));
             k.setTitle("Kategorien");
             k.show();
+            System.out.println("KategorienFenster wurden geladen");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
 
-}
+    public static void main(String[] args) {
 
+        KrallerService krallerService = new KrallerServiceImpl(new PatientDAOH2Impl(), new GerichtDAOH2Impl(), new AllergenDAOH2Impl());
+
+        System.out.println("Pruefe auf korrekte Datenbank-Übermittlung");
+        try {
+            List<Gericht> gerichte = krallerService.getAllGerichte();
+            for (Gericht gericht : gerichte) {
+                System.out.println("ID: " + gericht.getId() + ", Bezeichnung: " + gericht.getBezeichnung());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        launch(args);
+    }
+}

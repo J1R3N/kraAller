@@ -23,7 +23,7 @@ public class AllergenDAOImpl implements AllergenDAO {
     private static final String TAB_UNTERGRUPPE = "untergruppe";
 
     @Override
-    public List<Allergen> getAll() {
+    public List<Allergen> getAllergenAll() {
         List<Allergen> allergens = new ArrayList<>();
 
         try (Connection connection = dbcon.getConnection()) {
@@ -48,7 +48,12 @@ public class AllergenDAOImpl implements AllergenDAO {
     }
 
     @Override
-    public Allergen getById(int id) {
+    public List<Allergen> getAllAllergene() {
+        return null;
+    }
+
+    @Override
+    public Allergen getAllergenById(int id) {
         String untergruppe = null;
         String bezeichnung = null;
 
@@ -74,7 +79,12 @@ public class AllergenDAOImpl implements AllergenDAO {
     }
 
     @Override
-    public void add(Allergen allergen) {
+    public void saveAllergen(Allergen allergen) {
+
+    }
+
+    @Override
+    public void addAllergen(Allergen allergen) {
         try (Connection connection = dbcon.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_ADD)) {
             preparedStatement.setString(1, allergen.getUntergruppe());
@@ -91,12 +101,11 @@ public class AllergenDAOImpl implements AllergenDAO {
     }
 
     @Override
-    public void update(int id, Allergen updatedAllergen) {
+    public void updateAllergen(Allergen updatedAllergen) {
         try (Connection connection = dbcon.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
             preparedStatement.setString(1, updatedAllergen.getUntergruppe());
             preparedStatement.setString(2, updatedAllergen.getBezeichnung());
-            preparedStatement.setInt(3, id);
 
             preparedStatement.executeUpdate();
 
@@ -107,8 +116,9 @@ public class AllergenDAOImpl implements AllergenDAO {
         System.out.println(updatedAllergen.getBezeichnung() + "erfolgreich geändert");
     }
 
+
     @Override
-    public void delete(int id) {
+    public void deleteAllergen(int id) {
 
         try (Connection connection = dbcon.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {

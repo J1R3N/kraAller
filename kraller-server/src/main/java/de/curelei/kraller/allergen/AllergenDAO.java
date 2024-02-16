@@ -3,11 +3,17 @@ package de.curelei.kraller.allergen;
 import java.util.List;
 
 public interface AllergenDAO {
-    List<Allergen> getAll();
-    Allergen getById(int id);
-    void add(Allergen allergen);
-    void update(int id, Allergen updatedAllergen); //NUR DAS
-    void delete(int id);
+    List<Allergen> getAllergenAll();
 
+    List<Allergen> getAllAllergene();
 
+    Allergen getAllergenById(int id);
+
+    void saveAllergen(Allergen allergen);
+
+    void addAllergen(Allergen allergen);
+
+    void updateAllergen(Allergen allergen);
+
+    void deleteAllergen(int id);
 }

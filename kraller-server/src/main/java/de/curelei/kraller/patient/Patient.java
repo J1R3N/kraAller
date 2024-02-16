@@ -13,10 +13,9 @@ public class Patient {
     private List<Allergen> allergene;
 
     public Patient() {
-
     }
 
-    public Patient(int id, String vname, String nname, int alter, String geschlecht, String raum) {
+    public Patient(int id, String vname, String nname, int alter, String raum) {
         this.id = id;
         this.vname = vname;
         this.nname = nname;

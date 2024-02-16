@@ -3,16 +3,13 @@ package de.curelei.kraller.patient;
 import java.util.List;
 
 public interface PatientDAO {
-    void save(Patient k);
+    List<Patient> getAllPatients();
 
-    void update(Patient k);
+    Patient getPatientByID(int id);
 
-    void delete(int id);
+    void savePatient(Patient patient);
 
-    Patient get(int id);
+    void updatePatient(Patient patient);
 
-    List<Patient> search();
-
-    int getMaxId();
-
+    void deletePatient(int id);
 }

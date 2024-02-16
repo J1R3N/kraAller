@@ -1,50 +1,82 @@
 package de.curelei.kraller;
 
+import de.curelei.kraller.allergen.Allergen;
+import de.curelei.kraller.allergen.AllergenDAO;
+import de.curelei.kraller.gericht.Gericht;
+import de.curelei.kraller.gericht.GerichtDAO;
 import de.curelei.kraller.patient.Patient;
 import de.curelei.kraller.patient.PatientDAO;
 
+import java.util.List;
+
 public class KrallerServiceImpl implements KrallerService {
-    private final PatientDAO patientDao;
+    private final PatientDAO patientDAO;
+    private final GerichtDAO gerichtDAO;
+    private final AllergenDAO allergenDAO;
 
-    // Constructor with PatientDAO parameter
-    public KrallerServiceImpl(PatientDAO patientDao) {
-        this.patientDao = patientDao;
+    public KrallerServiceImpl(PatientDAO patientDAO, GerichtDAO gerichtDAO, AllergenDAO allergenDAO) {
+        this.patientDAO = patientDAO;
+        this.gerichtDAO = gerichtDAO;
+        this.allergenDAO = allergenDAO;
     }
 
     @Override
-    public Patient neu(Patient k) {
-        patientDao.save(k);
-        return k;
-    }
-
-
-    private String getNachsteId() {
-// TODO
-        return null;
+    public List<Patient> getAllPatients() {
+        return patientDAO.getAllPatients();
     }
 
     @Override
-    public void aendern(Patient patient) {
-        try {
-            patientDao.update(patient);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Patient Änderung konnten nicht übernommen werden.", e);
-        }
+    public List<Gericht> getAllGerichte() {
+        return gerichtDAO.getAllGerichte();
     }
 
     @Override
-    public void loeschen(int patientNr) {
-        try {
-            patientDao.delete(patientNr);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Patient konnte nicht entfernt werden.", e);
-        }
+    public List<Allergen> getAllAllergene() {
+        return allergenDAO.getAllAllergene();
     }
 
     @Override
-    public Patient holen(int patientNr) {
-        return patientDao.get(patientNr);
+    public void savePatient(Patient patient) {
+        patientDAO.savePatient(patient);
+    }
+
+    @Override
+    public void saveGericht(Gericht gericht) {
+        gerichtDAO.saveGericht(gericht);
+    }
+
+    @Override
+    public void saveAllergen(Allergen allergen) {
+        allergenDAO.saveAllergen(allergen);
+    }
+
+    @Override
+    public void updatePatient(Patient patient) {
+        patientDAO.updatePatient(patient);
+    }
+
+    @Override
+    public void updateGericht(Gericht gericht) {
+        gerichtDAO.updateGericht(gericht);
+    }
+
+    @Override
+    public void updateAllergen(Allergen allergen) {
+        allergenDAO.updateAllergen(allergen);
+    }
+
+    @Override
+    public void deletePatient(int id) {
+        patientDAO.deletePatient(id);
+    }
+
+    @Override
+    public void deleteGericht(int id) {
+        gerichtDAO.deleteGericht(id);
+    }
+
+    @Override
+    public void deleteAllergen(int id) {
+        allergenDAO.deleteAllergen(id);
     }
 }
