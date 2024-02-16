@@ -1,27 +1,28 @@
 package de.curelei.kraller.db;
 
-// H2AllergenDAO.java
+// H2GerichtDAO.java
 
-import de.curelei.kraller.allergen.Allergen;
-import de.curelei.kraller.allergen.AllergenDAO;
+
+import de.curelei.kraller.gericht.Gericht;
+import de.curelei.kraller.gericht.GerichtDAO;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class H2AllergenDAO implements AllergenDAO {
+public class GerichtDAOH2Impl implements GerichtDAO {
     private static final String URL = "jdbc:h2:~/test";
     private static final String USER = "sa";
     private static final String PASSWORD = "";
 
-    private static final String CREATE_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS allergene (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255))";
-    private static final String SELECT_ALL_QUERY = "SELECT * FROM allergene";
-    private static final String SELECT_BY_ID_QUERY = "SELECT * FROM allergene WHERE id=?";
-    private static final String INSERT_QUERY = "INSERT INTO allergene (name) VALUES (?)";
-    private static final String UPDATE_QUERY = "UPDATE allergene SET name=? WHERE id=?";
-    private static final String DELETE_QUERY = "DELETE FROM allergene WHERE id=?";
+    private static final String CREATE_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS gerichte (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255))";
+    private static final String SELECT_ALL_QUERY = "SELECT * FROM gerichte";
+    private static final String SELECT_BY_ID_QUERY = "SELECT * FROM gerichte WHERE id=?";
+    private static final String INSERT_QUERY = "INSERT INTO gerichte (name) VALUES (?)";
+    private static final String UPDATE_QUERY = "UPDATE gerichte SET name=? WHERE id=?";
+    private static final String DELETE_QUERY = "DELETE FROM gerichte WHERE id=?";
 
-    public H2AllergenDAO() {
+    public GerichtDAOH2Impl() {
         initializeDatabase();
     }
 
@@ -35,41 +36,36 @@ public class H2AllergenDAO implements AllergenDAO {
     }
 
     @Override
-    public List<Allergen> getAllergenAll() {
-        return null;
-    }
-
-    @Override
-    public List<Allergen> getAllAllergene() {
-        List<Allergen> allergene = new ArrayList<>();
+    public List<Gericht> getAllGerichte() {
+        List<Gericht> gerichte = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement statement = connection.prepareStatement(SELECT_ALL_QUERY);
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
-                Allergen allergen = new Allergen();
-                allergen.setId(resultSet.getInt("id"));
-                allergen.setBezeichnung(resultSet.getString("bezeichnung"));
-                allergene.add(allergen);
+                Gericht gericht = new Gericht();
+                gericht.setId(resultSet.getInt("ID"));
+                gericht.setBezeichnung(resultSet.getString("NAME"));
+                gerichte.add(gericht);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return allergene;
+        return gerichte;
     }
 
     @Override
-    public Allergen getAllergenById(int id) {
+    public Gericht getGerichtById(int id) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID_QUERY)) {
 
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    Allergen allergen = new Allergen();
-                    allergen.setId(resultSet.getInt("id"));
-                    allergen.setBezeichnung(resultSet.getString("bezeichnung"));
-                    return allergen;
+                    Gericht gericht = new Gericht();
+                    gericht.setId(resultSet.getInt("ID"));
+                    gericht.setBezeichnung(resultSet.getString("NAME"));
+                    return gericht;
                 }
             }
         } catch (SQLException e) {
@@ -79,15 +75,15 @@ public class H2AllergenDAO implements AllergenDAO {
     }
 
     @Override
-    public void saveAllergen(Allergen allergen) {
+    public void saveGericht(Gericht gericht) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
 
-            statement.setString(1, allergen.getBezeichnung());
+            statement.setString(1, gericht.getBezeichnung());
             statement.executeUpdate();
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    allergen.setId(generatedKeys.getInt(1));
+                    gericht.setId(generatedKeys.getInt(1));
                 }
             }
         } catch (SQLException e) {
@@ -96,17 +92,12 @@ public class H2AllergenDAO implements AllergenDAO {
     }
 
     @Override
-    public void addAllergen(Allergen allergen) {
-
-    }
-
-    @Override
-    public void updateAllergen(Allergen allergen) {
+    public void updateGericht(Gericht gericht) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
 
-            statement.setString(1, allergen.getBezeichnung());
-            statement.setInt(2, allergen.getId());
+            statement.setString(1, gericht.getBezeichnung());
+            statement.setInt(2, gericht.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -114,7 +105,7 @@ public class H2AllergenDAO implements AllergenDAO {
     }
 
     @Override
-    public void deleteAllergen(int id) {
+    public void deleteGericht(int id) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)) {
 

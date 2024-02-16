@@ -1,28 +1,27 @@
 package de.curelei.kraller.db;
 
-// H2GerichtDAO.java
+// H2PatientDAO.java
 
-
-import de.curelei.kraller.gericht.Gericht;
-import de.curelei.kraller.gericht.GerichtDAO;
+import de.curelei.kraller.patient.Patient;
+import de.curelei.kraller.patient.PatientDAO;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class H2GerichtDAO implements GerichtDAO {
+public class PatientDAOH2Impl implements PatientDAO {
     private static final String URL = "jdbc:h2:~/test";
     private static final String USER = "sa";
     private static final String PASSWORD = "";
 
-    private static final String CREATE_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS gerichte (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255))";
-    private static final String SELECT_ALL_QUERY = "SELECT * FROM gerichte";
-    private static final String SELECT_BY_ID_QUERY = "SELECT * FROM gerichte WHERE id=?";
-    private static final String INSERT_QUERY = "INSERT INTO gerichte (name) VALUES (?)";
-    private static final String UPDATE_QUERY = "UPDATE gerichte SET name=? WHERE id=?";
-    private static final String DELETE_QUERY = "DELETE FROM gerichte WHERE id=?";
+    private static final String CREATE_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS patients (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(255))";
+    private static final String SELECT_ALL_QUERY = "SELECT * FROM patients";
+    private static final String SELECT_BY_ID_QUERY = "SELECT * FROM patients WHERE id=?";
+    private static final String INSERT_QUERY = "INSERT INTO patients (name) VALUES (?)";
+    private static final String UPDATE_QUERY = "UPDATE patients SET name=? WHERE id=?";
+    private static final String DELETE_QUERY = "DELETE FROM patients WHERE id=?";
 
-    public H2GerichtDAO() {
+    public PatientDAOH2Impl() {
         initializeDatabase();
     }
 
@@ -36,36 +35,35 @@ public class H2GerichtDAO implements GerichtDAO {
     }
 
     @Override
-    public List<Gericht> getAllGerichte() {
-        List<Gericht> gerichte = new ArrayList<>();
+    public List<Patient> getAllPatients() {
+        List<Patient> patients = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement statement = connection.prepareStatement(SELECT_ALL_QUERY);
              ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
-                Gericht gericht = new Gericht();
-                gericht.setId(resultSet.getInt("ID"));
-                gericht.setBezeichnung(resultSet.getString("NAME"));
-                gerichte.add(gericht);
+                Patient patient = new Patient();
+                patient.setId(resultSet.getInt("id"));
+                patient.setNname(resultSet.getString("name"));
+                patients.add(patient);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return gerichte;
+        return patients;
     }
 
-    @Override
-    public Gericht getGerichtById(int id) {
+    public Patient getPatientByID(int id) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID_QUERY)) {
 
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    Gericht gericht = new Gericht();
-                    gericht.setId(resultSet.getInt("ID"));
-                    gericht.setBezeichnung(resultSet.getString("NAME"));
-                    return gericht;
+                    Patient patient = new Patient();
+                    patient.setId(resultSet.getInt("id"));
+                    patient.setNname(resultSet.getString("name"));
+                    return patient;
                 }
             }
         } catch (SQLException e) {
@@ -75,15 +73,15 @@ public class H2GerichtDAO implements GerichtDAO {
     }
 
     @Override
-    public void saveGericht(Gericht gericht) {
+    public void savePatient(Patient patient) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement statement = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS)) {
 
-            statement.setString(1, gericht.getBezeichnung());
+            statement.setString(1, patient.getNname());
             statement.executeUpdate();
             try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    gericht.setId(generatedKeys.getInt(1));
+                    patient.setId(generatedKeys.getInt(1));
                 }
             }
         } catch (SQLException e) {
@@ -92,12 +90,12 @@ public class H2GerichtDAO implements GerichtDAO {
     }
 
     @Override
-    public void updateGericht(Gericht gericht) {
+    public void updatePatient(Patient patient) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement statement = connection.prepareStatement(UPDATE_QUERY)) {
 
-            statement.setString(1, gericht.getBezeichnung());
-            statement.setInt(2, gericht.getId());
+            statement.setString(1, patient.getNname());
+            statement.setInt(2, patient.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -105,7 +103,7 @@ public class H2GerichtDAO implements GerichtDAO {
     }
 
     @Override
-    public void deleteGericht(int id) {
+    public void deletePatient(int id) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement statement = connection.prepareStatement(DELETE_QUERY)) {
 

@@ -2,9 +2,9 @@ package de.curelei.kraller.gui;
 
 import de.curelei.kraller.KrallerService;
 import de.curelei.kraller.KrallerServiceImpl;
-import de.curelei.kraller.db.H2AllergenDAO;
-import de.curelei.kraller.db.H2GerichtDAO;
-import de.curelei.kraller.db.H2PatientDAO;
+import de.curelei.kraller.db.AllergenDAOH2Impl;
+import de.curelei.kraller.db.GerichtDAOH2Impl;
+import de.curelei.kraller.db.PatientDAOH2Impl;
 import de.curelei.kraller.gericht.Gericht;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -21,9 +21,10 @@ import java.io.IOException;
 import java.util.List;
 
 public class KrallerApp extends Application {
-    KrallerService krallerService = new KrallerServiceImpl(new H2PatientDAO(), new H2GerichtDAO(), new H2AllergenDAO());
+    private KrallerService krallerService;
 
     public KrallerApp() {
+        krallerService = new KrallerServiceImpl(new PatientDAOH2Impl(), new GerichtDAOH2Impl(), new AllergenDAOH2Impl());
     }
 
     public KrallerApp(KrallerService krallerService) {
@@ -106,7 +107,7 @@ public class KrallerApp extends Application {
 
     public static void main(String[] args) {
 
-        KrallerService krallerService = new KrallerServiceImpl(new H2PatientDAO(), new H2GerichtDAO(), new H2AllergenDAO());
+        KrallerService krallerService = new KrallerServiceImpl(new PatientDAOH2Impl(), new GerichtDAOH2Impl(), new AllergenDAOH2Impl());
 
         System.out.println("Pruefe auf korrekte Datenbank-Übermittlung");
         try {
