@@ -3,7 +3,7 @@ plugins {
     id 'war'
 }
 
-sourceCompatibility = 1.21
+sourceCompatibility = 1.18
 
 repositories {
     mavenCentral()

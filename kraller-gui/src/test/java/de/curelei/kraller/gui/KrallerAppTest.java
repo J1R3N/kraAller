@@ -1,4 +1,4 @@
-/*
+
 package de.curelei.kraller.gui;
 
 import javafx.scene.Node;
@@ -51,4 +51,4 @@ class KrallerAppTest {
         return robot.lookup(query).query();
     }
 }
-*/
+
