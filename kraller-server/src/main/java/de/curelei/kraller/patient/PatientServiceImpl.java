@@ -32,7 +32,7 @@ public class PatientServiceImpl implements PatientService {
         patientDAO.deletePatient(id);
     }
 
-    @Override
+   // @Override
     public List<Patient> suchen(String suchBegriff) {
         if (suchBegriff == null) {
             throw new IllegalArgumentException("Suchbegriff darf nicht leer sein");

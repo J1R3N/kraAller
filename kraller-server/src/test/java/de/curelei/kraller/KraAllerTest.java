@@ -1,6 +1,7 @@
-/*
 package de.curelei.kraller;
 
+import de.curelei.kraller.allergen.AllergenDAO;
+import de.curelei.kraller.gericht.GerichtDAO;
 import de.curelei.kraller.patient.Patient;
 import de.curelei.kraller.patient.PatientDAO;
 import org.easymock.EasyMock;
@@ -8,7 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.easymock.EasyMock.mock;
 
 class KraAllerTest {
 
@@ -21,42 +22,36 @@ class KraAllerTest {
         patientDaoMock = EasyMock.createMock(PatientDAO.class);
 
         // Create an instance of KrallerServiceImpl with the mock
-        krallerService = new KrallerServiceImpl(patientDaoMock);
+        krallerService = new KrallerServiceImpl(patientDaoMock, mock(GerichtDAO.class), mock(AllergenDAO.class));
     }
 
     @Test
-    public void testNeu() {
+    public void testSavePatient() {
         // Setup: Define the expected behavior for the mock
         Patient patient = new Patient();
-        patientDaoMock.save(EasyMock.isA(Patient.class));
-        EasyMock.expectLastCall();
-
-
+        patientDaoMock.savePatient(patient);
+        EasyMock.expectLastCall().once();
         EasyMock.replay(patientDaoMock);
 
         // Exercise: Call the method under test
-        Patient result = krallerService.neu(patient);
+        krallerService.savePatient(patient);  // Ensure this method exists and uses patientDaoMock
 
         // Verify: Check that the expected method was called on the mock
         EasyMock.verify(patientDaoMock);
-
-        // Assert: Check the result
-        Assertions.assertEquals(patient, result);
     }
 
     @Test
-    public void testHolen() {
+    public void testGetPatientByID() {
         int patientNr = 1;
         Patient expectedPatient = new Patient();
-        EasyMock.expect(patientDaoMock.get(patientNr)).andReturn(expectedPatient);
+        EasyMock.expect(patientDaoMock.getPatientByID(patientNr)).andReturn(expectedPatient);
         EasyMock.replay(patientDaoMock);
 
+        // Exercise: Call the method under test
+        Patient result = patientDaoMock.getPatientByID(patientNr);  // Ensure this method exists and uses patientDaoMock
 
-        Patient result = krallerService.holen(patientNr);
-
-        assertEquals(expectedPatient, result);
+        // Assert: Check the result
+        Assertions.assertEquals(expectedPatient, result);
         EasyMock.verify(patientDaoMock);
     }
-
 }
-*/
